@@ -18,7 +18,7 @@ I specialize in diving into complex environments and finding ways to make them a
 
 ## Skills & Technologies
 
-* **Linux & Systems:** Red Hat Certified Engineer (RHCE). Hands-on experience across Linux, HP-UX, AIX, and Solaris,
-      as well as legacy architectures like Power, SPARC, Itanium, and PA-RISC.
+* **Linux & Systems:** Red Hat Certified Engineer (RHCE). Experience across Linux, HP-UX, AIX, and Solaris,
+      as well as architectures such as Power, SPARC, Itanium, and PA-RISC.
 * **Networking:** Configuring and managing Juniper and Brocade environments.
 * **Automation:** Building infrastructure as code and streamlining workflows using Ansible and Puppet.
