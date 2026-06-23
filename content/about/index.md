@@ -13,10 +13,12 @@ showDate: false
 
 ## About Me
 
-I am a 20-year-old systems engineer focused on automation, infrastructure architecture, and enterprise networking. I specialize in diving into complex environments and finding ways to make them automated and efficient.
+I am a 20-year-old systems engineer focused on automation, infrastructure architecture, and enterprise networking.
+I specialize in diving into complex environments and finding ways to make them automated and efficient.
 
 ## Skills & Technologies
 
-*   **Linux & Systems:** Red Hat Certified Engineer (RHCE). Hands-on experience across Linux, HP-UX, AIX, and Solaris, as well as legacy architectures like Power, SPARC, Itanium, and PA-RISC.
-*   **Networking:** Configuring and managing Juniper and Brocade environments.
-*   **Automation:** Building infrastructure as code and streamlining workflows using Ansible and Puppet.
+* **Linux & Systems:** Red Hat Certified Engineer (RHCE). Hands-on experience across Linux, HP-UX, AIX, and Solaris,
+      as well as legacy architectures like Power, SPARC, Itanium, and PA-RISC.
+* **Networking:** Configuring and managing Juniper and Brocade environments.
+* **Automation:** Building infrastructure as code and streamlining workflows using Ansible and Puppet.
