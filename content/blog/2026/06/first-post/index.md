@@ -14,7 +14,7 @@ section.
 ## Development Environments
 
 This site provides access to isolated virtual machines for development and testing on multiple CPU architectures,
-including Itanium, SPARC, and POWER.
+including Itanium, POWER, and SPARC.
 
 Each environment is intended for software development, experimentation, and portability testing on non-standard systems.
 
