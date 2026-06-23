@@ -1,4 +1,4 @@
-Website: xserve.cc
+# Website: xserve.cc
 
 [![CI](https://github.com/iambryant/xserve-cc/actions/workflows/ci.yml/badge.svg)](https://github.com/iambryant/xserve-cc/actions/workflows/ci.yml)
 
