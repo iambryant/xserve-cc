@@ -1,5 +1,5 @@
 <footer>
   <div class="footer-info">
-    © {{ dateFormat "2006" now }} {{ .Site.Copyright }}
+    © {{ dateFormat "2006" now }} {{ with .Site.Copyright }} {{ . }} {{ end }}
   </div>
 </footer>
