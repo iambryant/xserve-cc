@@ -6,7 +6,6 @@ baseURL = 'https://xserve.cc/'
 locale = 'en-us'
 title = 'Systems Engineering | Bryant A'
 copyright = 'Bryant A'
-enableRobotsTXT = true
 
 theme = "congo"
 defaultContentLanguage = "en"
