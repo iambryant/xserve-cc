@@ -34,4 +34,3 @@ jobs:
           webhook_url: 'http://xserve.cc/hooks/deploy-hugo-website'
           webhook_secret: ${{ secrets.WEBHOOK_TOKEN }}
           webhook_type: 'json-extended'
-          verbose: true
