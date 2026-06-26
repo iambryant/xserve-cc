@@ -11,7 +11,7 @@ Currently a work in progress, but soon I will be offering development environmen
 available architectures will be:
 
 - Itanium
-- Power
+- POWER
 - SPARC
 
 Playbooks are currntly being worked on to automate the netboot infrastructure needed to spin up instances on request.
