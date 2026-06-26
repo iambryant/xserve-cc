@@ -32,6 +32,5 @@ jobs:
         uses: distributhor/workflow-webhook@v3.0.8
         with:
           webhook_url: 'http://xserve.cc/hooks/deploy-hugo-site'
-          webhook_auth_type: 'header'
-          webhook_auth: 'X-Webhook-Token:${{ secrets.WEBHOOK_TOKEN }}'
+          webhook_secret: ${{ secrets.WEBHOOK_TOKEN }}
           verbose: true
