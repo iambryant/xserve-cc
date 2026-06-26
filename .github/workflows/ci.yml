@@ -31,7 +31,7 @@ jobs:
       - name: Trigger webhook to deploy Hugo website
         uses: distributhor/workflow-webhook@v3.0.8
         with:
-          webhook_url: 'http://xserve.cc/hooks/deploy-hugo-site'
+          webhook_url: 'http://xserve.cc/hooks/deploy-hugo-website'
           webhook_secret: ${{ secrets.WEBHOOK_TOKEN }}
           webhook_type: 'json-extended'
           verbose: true
