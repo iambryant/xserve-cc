@@ -29,7 +29,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Trigger webhook to deploy Hugo website
-        uses: distributhor/workflow-webhook@v3
+        uses: distributhor/workflow-webhook@v3.0.8
         with:
           webhook_url: 'http://xserve.cc/hooks/deploy-hugo-site'
           webhook_auth_type: 'header'
