@@ -9,6 +9,7 @@ showDate: false
 
 Currently a work in progress, but soon I will be offering development environments on alternate architcetures. The
 available architectures will be:
+
   - Itanium
   - Power
   - SPARC

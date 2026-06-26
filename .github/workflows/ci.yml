@@ -23,6 +23,7 @@ jobs:
 
   trigger-webhook:
     runs-on: ubuntu-latest
+    needs: lint
     steps:
       - name: Trigger webhook to deploy Hugo website
         uses: distributhor/workflow-webhook@v3.0.8
