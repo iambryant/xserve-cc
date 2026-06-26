@@ -6,7 +6,11 @@ This repository contains the code used to create my website.
 
 ## Development
 
-TODO
+To create a new blog post, you can run this command in the repository:
+
+```
+hugo new content blog/2026/06/new-blog-post/index.md
+```
 
 ## Deployment
 
