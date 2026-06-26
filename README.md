@@ -10,11 +10,13 @@ TODO
 
 ## Deployment
 
-Since this repository consists of mainly markdown files, I use the
-[markdownlint-cli2](https://github.com/davidanson/markdownlint-cli2-action) to make sure I formatted my markdown files
-correctly. If the stage passes, I use [workflow-webook](https://github.com/distributhor/workflow-webhook) to trigger
-an event on my webserver running this [webhook](https://github.com/adnanh/webhook) software to run the deployment. You
-can read mroe about this process in my blog post [here](https://xserve.cc/404.html).
+My website uses an automated CI/CD pipeline triggered by GitHub Actions:
+
+1. **Linting:** Every push runs [markdownlint-cli2](https://github.com/davidanson/markdownlint-cli2-action) to check that all Markdown files are formatted correctly.
+2. **Trigger:** If the linting stage passes, [workflow-webhook](https://github.com/distributhor/workflow-webhook) triggers a webhook on my server.
+3. **Execution:** I use [webhook](https://github.com/adnanh/webhook), which receives the webhook and executes my deployment script.
+
+For a deeper dive into how this setup works, check out my [blog post here](https://xserve.cc/404.html).
 
 ## License
 
