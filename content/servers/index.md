@@ -3,7 +3,7 @@ title: "Servers"
 showDate: false
 ---
 
-![Front of rack](front-of-rack.jpg?width=10000px)
+![Front of rack](front-of-rack.jpg){ width=200px }
 
 ## Available Servers
 
@@ -14,5 +14,5 @@ available architectures will be:
 - POWER
 - SPARC
 
-Playbooks are currntly being worked on to automate the netboot infrastructure needed to spin up instances on request.
+Playbooks are currently being worked on to automate the netboot infrastructure needed to spin up instances on request.
 I will also be adding Munin graphs so that server statistics can be viewed.
