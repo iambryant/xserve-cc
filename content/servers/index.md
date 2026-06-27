@@ -2,6 +2,12 @@
 title: "Servers"
 showDate: false
 ---
+{{< figure
+    src="front-of-rack.jpg"
+    alt="Front of rack"
+    default="true"
+    width="300"
+>}}
 
 ![Front of rack](front-of-rack.jpg)
 
