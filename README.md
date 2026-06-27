@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/iambryant/xserve-cc/actions/workflows/ci.yml/badge.svg)](https://github.com/iambryant/xserve-cc/actions/workflows/ci.yml)
 
-This repository contains the code used to create my website.
+This repository contains the source code and content used to create my website.
 
 ## Development
 
