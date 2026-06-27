@@ -9,8 +9,6 @@ showDate: false
     width="300"
 >}}
 
-![Front of rack](front-of-rack.jpg)
-
 ## Available Servers
 
 Currently a work in progress, but soon I will be offering development environments on alternate architcetures. The
