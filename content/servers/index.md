@@ -7,7 +7,7 @@ showDate: false
     alt="Front of rack"
     default="true"
     width="300"
-    class="mx-auto"
+    class="mx-auto block"
 >}}
 
 ## Available Servers
