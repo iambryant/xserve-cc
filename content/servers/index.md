@@ -3,7 +3,7 @@ title: "Servers"
 showDate: false
 ---
 
-![Front of rack](front-of-rack.jpg){ width=200px }
+![Front of rack](front-of-rack.jpg)
 
 ## Available Servers
 
