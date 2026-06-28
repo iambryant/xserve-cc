@@ -12,14 +12,14 @@ I've recently completed part 1 of my public infrastructure project. The goals I 
 
 This blog post will dive into how I got it done and the architectural decisions I made along the way.
 
-## Choosing
+## Choosing Hugo
 
 I chose Hugo for this website as my requirements were fairly simple. I didn't need a database, user accounts, or the
 overhead of a full Content Management System (CMS) such as WordPress. I found a Static Site Generator (SSG) to be a
 much better fit.
 
 I had also considered Jekyll, especially since it's the default choice for GitHub Pages and has excellent integration
-there. I'll still be using it for any GitHub Pages websites I create but went Hugo here simply due to preference.
+there. I'll still be using it for any GitHub Pages websites I create but I went with Hugo here simply due to preference.
 
 ## Deployment & Automation
 
