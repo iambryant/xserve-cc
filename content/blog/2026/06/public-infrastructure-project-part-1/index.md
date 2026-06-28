@@ -72,7 +72,7 @@ jobs:
 The first is self-explanatory; it lints the markdown files in the repository to make sure I formatted
 everything correctly.
 
-The second job deploys the code by sending a webhook to my webserver. The deployment script contains these steps: 
+The second job deploys the code by sending a webhook to my webserver. The deployment script contains these steps:
 
 ```shell
 #!/bin/sh
