@@ -15,7 +15,7 @@ This blog post will dive into how I got it done and the architectural decisions 
 ## Getting started
 
 I chose Hugo for this website as my requirements were fairly simple. I didn't need a database, user accounts, or the
-overhead of a full Content Management System (CMS) such as WordPress. I found a Static Site Generator (SSG) to be a 
+overhead of a full Content Management System (CMS) such as WordPress. I found a Static Site Generator (SSG) to be a
 much better fit.
 
 I had also considered Jekyll, especially since it's the default choice for GitHub Pages and has excellent integration
