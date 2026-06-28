@@ -39,7 +39,7 @@ Ansible playbooks I've written for configuring this website. It pretty much does
 We've coverted the CD part of CI/CD, but I still haven't covered CI. For that, I use GitHub's Actions and Runners to
 do the heavy listing. My current
 [GitHub workflow](https://github.com/iambryant/xserve-cc/blob/main/.github/workflows/ci.yml) currently consists of two
-jobs;
+jobs:
 
 ```yaml
 jobs:
@@ -70,7 +70,7 @@ jobs:
 The first is self-explanatory; it lints the markdown files in my Hugo source repository to make sure I formatted
 everything correctly.
 
-The second job deploys the code by sending a webhook to my webserver. The deployment script on it uses is pretty simple:
+The second job deploys the code by sending a webhook to my webserver. The deployment script that it uses is pretty simple:
 
 ```shell
 #!/bin/sh
