@@ -3,13 +3,7 @@ title: "About"
 showDate: false
 ---
 
-{{< figure
-  src="./back-of-rack.jpg"
-  alt="Back of rack"
-  width="700"
-  height="auto"
-  class="insert-image"
->}}
+![Back of rack](back-of-rack.jpg)
 
 ## About Me
 

@@ -1,0 +1,238 @@
+---
+date: '2026-06-21'
+tags: ['infrastructure']
+title: 'Public Infrastructure Project (Part 1)'
+slug: 'public-infrastructure-project-part-1'
+---
+I just completed part 1 of my public infrastructure project. What is it? Well, it's simple. I need to:
+
+1. Build and maintain a public-facing website. ✅ **Done!**
+2. Deploy and manage infrastructure across multiple hardware architectures using automation and metrics.
+3. Document the process publicly and publish the work on my [GitHub](https://github.com/iambryant).
+
+This blog post will dive into how I got it done and the architectural decisions I made along the way. 
+
+## Getting started
+
+I chose Hugo for my website. I don't really need advanced features like logins or whatnot for a blog website. I also
+really didn't want the overhead of Wordpress, which requires a backend database for your website to function. I picked
+Hugo due to its speed, the fact that I don't need to create my posts in a GUI, and that a static site generator was good
+enough for me. There's also Jekyll but I'm not a Ruby programmer, and I already get enough of that with Puppet. I'll
+link my [GitHub repository](https://github.com/iambryant/public-infrastructure-playbook) which contains the
+Ansible playbooks I've written for configuring this website. It pretty much does this:
+
+- Run site.yml, which contains base configuration tasks such as:
+  -  Configuring the firewall
+  -  Configuring NTP
+  -  Configuring sshd
+- Run deploy_hugo.yml, which:
+  - Configures the firewall to only allow traffic from Cloudflare's [IP Ranges](https://www.cloudflare.com/ips/)
+    (will explain more later about this)
+  - Installs and configures certbot to generate certs for the webserver before apache is configured
+  - Installs and configures apache with base configuration
+  - Installs [Hugo](https://gohugo.io)
+  - Installs and configures [adnanh/webhook](https://github.com/adnanh/webhook)
+  - Configures webhook deployment users, scripts, etc.
+
+## External Steps
+
+We've coverted the CD part of CI/CD, but I still haven't covered CI. For that, I use GitHub's Actions and Runners to
+do the heavy listing. My current
+[GitHub workflow](https://github.com/iambryant/xserve-cc/blob/main/.github/workflows/ci.yml) currently consists of two
+jobs;
+
+```yaml
+jobs:
+  lint:
+    name: Lint Markdown
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the codebase.
+        uses: actions/checkout@v7
+
+      - name: Lint Markdown files
+        uses: DavidAnson/markdownlint-cli2-action@v23.2.0
+        with:
+          globs: '**/*.md'
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: lint
+    steps:
+      - name: Trigger webhook to deploy Hugo website
+        uses: distributhor/workflow-webhook@v3.0.8
+        with:
+          webhook_url: 'http://xserve.cc/hooks/deploy-hugo-website'
+          webhook_secret: ${{ secrets.WEBHOOK_TOKEN }}
+          webhook_type: 'json-extended'
+```
+The first is self-explanatory; it lints the markdown files in my Hugo source repository to make sure I formatted
+everything correctly.
+
+The second job deploys the code by sending a webhook to my webserver. The deployment script on it uses is pretty simple:
+
+```shell
+#!/bin/sh
+/usr/bin/git clone https://github.com/iambryant/xserve-cc.git /var/webhook/xserve-cc
+sudo /usr/local/bin/hugo -s /var/webhook/xserve-cc -d /var/www/html --cleanDestinationDir > hugo.log 2>&1
+/usr/bin/rm -rf /var/webhook/xserve-cc
+```
+
+The repository is cloned to the webhook user's home directory, deployed with Hugo, and then cleaned out. I could
+technically do this in the GitHub workflow if I wanted the Hugo deployment to be more portable, since Hugo just converts
+all the markdown files to HTML, and the webserver wouldn't need Hugo. I was kind of thinking of doing this as I had the
+idea of rotating the blog daily to different operating systems such as AIX, HP-UX, and Solaris as a novelty, but not for
+now.
+
+Anyway, since the webhook user is deploying to a protected directory `/var/www/html`, make sure you give it sudo
+privileges, like this:
+
+```
+- name: "Ensure webhook user can run hugo with sudo"
+  community.general.sudoers:
+    name: 90-webhook-users
+    state: present
+    user: webhook
+    commands: "/usr/local/bin/hugo -s /var/webhook/xserve-cc -d /var/www/html --cleanDestinationDir"
+    nopassword: true
+```
+
+Ideally you'd restrict the sudo command(s) to the exact commands you'd use in the deployment script for security.
+
+
+## Reachability
+
+We've covered the CI and CD steps of the deployment pipeline, but we can still make this more secure. Initially I
+thought of restricting the IPs that could trigger the webhook to the GitHub Actions runner IP ranges at
+[GitHub's public API endpoint](https://api.github.com/meta), like this:
+
+```yaml
+- name: "Fetch GitHub's CIDR blocks"
+  ansible.builtin.uri:
+    url: https://api.github.com/meta
+    method: GET
+    return_content: true
+  register: github_cidr_blocks_raw
+  run_once: true # To prevent hammering GitHub's API server if running on multiple hosts
+
+- name: "Ensure GitHub's CIDR blocks are set as facts"
+  ansible.builtin.set_fact:
+    github_actions_cidr_blocks_v4: "{{ github_cidr_blocks_raw.json.actions | select('search', '\\.') | list }}"
+    github_actions_cidr_blocks_v6: "{{ github_cidr_blocks_raw.json.actions | select('search', ':') | list }}"
+
+- name: "Ensure firewall rules are applied"
+  ansible.builtin.include_role:
+    name: fedora.linux_system_roles.firewall
+  vars:
+    firewall:
+      - ipset: github_actions_cidr_blocks_v4
+        ipset_type: hash:net
+        ipset_entries: "{{ github_actions_cidr_blocks_v4 }}"
+        state: present
+
+      - ipset: github_actions_cidr_blocks_v6
+        ipset_type: hash:net
+        ipset_entries: "{{ github_actions_cidr_blocks_v6 }}"
+        state: present
+
+      - zone: github
+        state: present
+
+      - zone: github
+        source:
+          - "ipset:github_actions_cidr_blocks_v4"
+          - "ipset:github_actions_cidr_blocks_v6"
+        port:
+          - "{{ webhook_port }}/tcp"
+        state: enabled
+```
+
+I got this idea from Jeff Geerling's video,
+[How I survived a DDos attack](https://www.youtube.com/watch?v=VPcYMgTYQs0&themeRefresh=1), where he mentioned
+restricting the firewall on his VPS to Cloudflare's IP ranges to prevent bypassing Cloudflare's protection.
+
+However, I noticed that when I tried running the webhook, it would fail each time. I tried disabling the firewall on my
+webserver thinking that I had configured the rules incorrectly. When that failed, I tried switching Cloudflare's proxy
+(which my website is behind) from orange cloud to grey cloud. Suddenly, it worked. Why?
+
+Cloudflare is sort of a complicated beast. It's a hybrid between a Web Application Firewall (WAF) and a reverse proxy.
+The first issue that was causing failures was the origin IPs. Since Cloudflare proxies traffic, it doesn't just pass
+traffic through; it will actively rewrite the IPs. This meant that I had to change my firewall rules to allow web
+traffic from Cloudflare's IP ranges, not GitHub's:
+
+```yaml
+- name: "Fetch Cloudflare's CIDR blocks (IPv4)"
+  ansible.builtin.uri:
+    url: https://www.cloudflare.com/ips-v4
+    return_content: true
+  register: cloudflare_cidr_blocks_v4_raw
+  run_once: true
+
+- name: "Fetch Cloudflare's CIDR blocks (IPv6)"
+  ansible.builtin.uri:
+    url: https://www.cloudflare.com/ips-v6
+    return_content: true
+  register: cloudflare_cidr_blocks_v6_raw
+  run_once: true
+
+- name: "Fetch GitHub's CIDR blocks"
+  ansible.builtin.uri:
+    url: https://api.github.com/meta
+    method: GET
+    return_content: true
+  register: github_cidr_blocks_raw
+  run_once: true
+
+- name: "Set Cloudflare and GitHub structured list variables"
+  ansible.builtin.set_fact:
+    cloudflare_cidr_blocks_v4: "{{ cloudflare_cidr_blocks_v4_raw.content.splitlines() }}"
+    cloudflare_cidr_blocks_v6: "{{ cloudflare_cidr_blocks_v6_raw.content.splitlines() }}"
+
+- name: "Ensure firewall rules are applied"
+  ansible.builtin.include_role:
+    name: fedora.linux_system_roles.firewall
+  vars:
+    firewall:
+      - ipset: cloudflare_cidr_blocks_v4
+        ipset_type: hash:net
+        ipset_entries: "{{ cloudflare_cidr_blocks_v4 }}"
+        state: present
+
+      - ipset: cloudflare_cidr_blocks_v6
+        ipset_type: hash:net
+        ipset_entries: "{{ cloudflare_cidr_blocks_v6 }}"
+        state: present
+
+      - zone: cloudflare
+        state: present
+
+      - zone: cloudflare
+        source:
+          - "ipset:cloudflare_cidr_blocks_v4"
+          - "ipset:cloudflare_cidr_blocks_v6"
+        service:
+          - http
+          - https
+        port:
+          - "{{ webhook_port }}/tcp"
+        state: enabled
+```
+
+There still however was one more issue: the webserver was not receiving webhooks sent by GitHub runners. By default,
+the webhook service listens on port 9000. Cloudflare, being designed for web traffic, sees it as a non standard port
+and drops it. There's multiple ways you could solve this, such as:
+
+- Changing the webhook to listen on a different HTTP/HTTPS port that doesn't conflcit with the webserver but is still
+  supported by Cloudflare, such as 8443
+- Creating an origin rule so that HTTP/HTTPS requests set by GitHub were rewritten to port 9000
+
+I went with the second option out of preference. The way I did it was through Cloudflare's
+[origin rules:](https://developers.cloudflare.com/rules/origin-rules/)
+
+![Cloudflare origin rules](cloudflare-origin-rules.jpg)
+
+Essentially, you tell Cloudflare to redirect URL paths starting with /hooks (the url the webhook service accepts
+webhooks on) to port 9000. Whether GitHub sends it as HTTP or HTTPS, as long as it's a valid port to Cloudflare,
+it'll rewrite it to port 9000.
+
+![Cloudflare port rewrite](cloudflare-port-rewrite.jpg)
