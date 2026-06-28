@@ -21,11 +21,11 @@ enough for me. There's also Jekyll but I'm not a Ruby programmer, and I already 
 link my [GitHub repository](https://github.com/iambryant/public-infrastructure-playbook) which contains the
 Ansible playbooks I've written for configuring this website. It pretty much does this:
 
-- Run site.yml, which contains base configuration tasks such as:
+- Run `site.yml`, which contains base configuration tasks such as:
   - Configuring the firewall
   - Configuring NTP
   - Configuring sshd
-- Run deploy_hugo.yml, which:
+- Run `configure_dmz_web.yml`, which:
   - Configures the firewall to only allow traffic from Cloudflare's [IP Ranges](https://www.cloudflare.com/ips/)
     (will explain more later about this)
   - Installs and configures certbot to generate certs for the webserver before apache is configured
@@ -36,9 +36,8 @@ Ansible playbooks I've written for configuring this website. It pretty much does
 
 ## External Steps
 
-We've coverted the CD part of CI/CD, but I still haven't covered CI. For that, I use GitHub's Actions and Runners to
-do the heavy listing. My current
-[GitHub workflow](https://github.com/iambryant/xserve-cc/blob/main/.github/workflows/ci.yml) currently consists of two
+I use GitHub's Actions and Runners to handle any changes I make to my website code. My current
+[GitHub workflow](https://github.com/iambryant/xserve-cc/blob/main/.github/workflows/ci.yml) consists of two
 jobs:
 
 ```yaml
@@ -70,39 +69,25 @@ jobs:
 The first is self-explanatory; it lints the markdown files in my Hugo source repository to make sure I formatted
 everything correctly.
 
-The second job deploys the code by sending a webhook to my webserver. The deployment script that it uses is pretty simple:
+The second job deploys the code by sending a webhook to my webserver. The deployment script that it uses is pretty
+simple:
 
 ```shell
 #!/bin/sh
 /usr/bin/git clone https://github.com/iambryant/xserve-cc.git /var/webhook/xserve-cc
-sudo /usr/local/bin/hugo -s /var/webhook/xserve-cc -d /var/www/html --cleanDestinationDir > hugo.log 2>&1
+/usr/local/bin/hugo -s /var/webhook/xserve-cc -d /var/www/html --cleanDestinationDir > hugo.log 2>&1
 /usr/bin/rm -rf /var/webhook/xserve-cc
 ```
 
 The repository is cloned to the webhook user's home directory, deployed with Hugo, and then cleaned out. I could
 technically do this in the GitHub workflow if I wanted the Hugo deployment to be more portable, since Hugo just converts
-all the markdown files to HTML, and the webserver wouldn't need Hugo. I was kind of thinking of doing this as I had the
-idea of rotating the blog daily to different operating systems such as AIX, HP-UX, and Solaris as a novelty, but not for
-now.
+all the markdown files to HTML, and the webserver wouldn't need Hugo. I may eventually rotate the blog between
+AIX, HP-UX, and Solaris hosts, so having just the HTML files on them would be cleaner than attempting to get Hugo
+running on each OS.
 
-Anyway, since the webhook user is deploying to a protected directory `/var/www/html`, make sure you give it sudo
-privileges, like this:
+## Architectural Decisions
 
-```yaml
-- name: "Ensure webhook user can run hugo with sudo"
-  community.general.sudoers:
-    name: 90-webhook-users
-    state: present
-    user: webhook
-    commands: "/usr/local/bin/hugo -s /var/webhook/xserve-cc -d /var/www/html --cleanDestinationDir"
-    nopassword: true
-```
-
-Ideally you'd restrict the sudo command(s) to the exact commands you'd use in the deployment script for security.
-
-## Reachability
-
-We've covered the CI and CD steps of the deployment pipeline, but we can still make this more secure. Initially I
+Now that I've covered the deployment pipeline, I can talk about some problems I encountered. Initially I
 thought of restricting the IPs that could trigger the webhook to the GitHub Actions runner IP ranges at
 [GitHub's public API endpoint](https://api.github.com/meta), like this:
 
@@ -113,7 +98,7 @@ thought of restricting the IPs that could trigger the webhook to the GitHub Acti
     method: GET
     return_content: true
   register: github_cidr_blocks_raw
-  run_once: true # To prevent hammering GitHub's API server if running on multiple hosts
+  run_once: true # To prevent hammering GitHub's servers if running on multiple hosts
 
 - name: "Ensure GitHub's CIDR blocks are set as facts"
   ansible.builtin.set_fact:
@@ -166,7 +151,7 @@ traffic from Cloudflare's IP ranges, not GitHub's:
     url: https://www.cloudflare.com/ips-v4
     return_content: true
   register: cloudflare_cidr_blocks_v4_raw
-  run_once: true
+  run_once: true # To prevent hammering Cloudflare's servers if running on multiple hosts
 
 - name: "Fetch Cloudflare's CIDR blocks (IPv6)"
   ansible.builtin.uri:
@@ -183,7 +168,7 @@ traffic from Cloudflare's IP ranges, not GitHub's:
   register: github_cidr_blocks_raw
   run_once: true
 
-- name: "Set Cloudflare and GitHub structured list variables"
+- name: "Ensure GitHub's CIDR blocks are set as facts"
   ansible.builtin.set_fact:
     cloudflare_cidr_blocks_v4: "{{ cloudflare_cidr_blocks_v4_raw.content.splitlines() }}"
     cloudflare_cidr_blocks_v6: "{{ cloudflare_cidr_blocks_v6_raw.content.splitlines() }}"
@@ -219,17 +204,17 @@ traffic from Cloudflare's IP ranges, not GitHub's:
 ```
 
 There still however was one more issue: the webserver was not receiving webhooks sent by GitHub runners. By default,
-the webhook service listens on port 9000. Cloudflare, being designed for web traffic, sees it as a non standard port
+the webhook service listens on port 9000. Cloudflare, being designed for web traffic, sees it as a non-standard port
 and drops it. There's multiple ways you could solve this, such as:
 
 - Changing the webhook to listen on a different HTTP/HTTPS port that doesn't conflcit with the webserver but is still
-  supported by Cloudflare, such as 8443
-- Creating an origin rule so that HTTP/HTTPS requests set by GitHub were rewritten to port 9000
+  supported by Cloudflare, such as 8443 (you would need to specify this in your webhook URL since it's nonstandard)
+- Creating an origin rule so that HTTP/HTTPS requests sent by GitHub get rewritten to port 9000
 
 I went with the second option out of preference. The way I did it was through Cloudflare's
 [origin rules:](https://developers.cloudflare.com/rules/origin-rules/)
 
-![Cloudflare origin rules](cloudflare-origin-rule.jpg)
+![Cloudflare origin rule](cloudflare-origin-rule.jpg)
 
 Essentially, you tell Cloudflare to redirect URL paths starting with `/hooks` (the url the webhook service accepts
 webhooks on) to port 9000. Whether GitHub sends it as HTTP or HTTPS, as long as it's a valid port to Cloudflare,
