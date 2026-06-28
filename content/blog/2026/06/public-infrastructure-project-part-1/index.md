@@ -12,17 +12,19 @@ I've recently completed part 1 of my public infrastructure project. The goals I 
 
 This blog post will dive into how I got it done and the architectural decisions I made along the way.
 
-## Getting started
+## Choosing
 
 I chose Hugo for this website as my requirements were fairly simple. I didn't need a database, user accounts, or the
 overhead of a full Content Management System (CMS) such as WordPress. I found a Static Site Generator (SSG) to be a
 much better fit.
 
 I had also considered Jekyll, especially since it's the default choice for GitHub Pages and has excellent integration
-there. I'll still be using it for any GitHub Pages websites I create but went Hugo simply due to preference.
+there. I'll still be using it for any GitHub Pages websites I create but went Hugo here simply due to preference.
 
-[GitHub repository](https://github.com/iambryant/public-infrastructure-playbook) which contains the Ansible playbooks
-I've written for configuring this website. It pretty much runs like this:
+## Deployment & Automation
+
+My [GitHub repository here](https://github.com/iambryant/public-infrastructure-playbook) contains the Ansible playbooks
+I've written for configuring this website. It runs in this order currently:
 
 - Run `site.yml`, which contains base configuration tasks such as:
   - Configuring the firewall
@@ -30,16 +32,14 @@ I've written for configuring this website. It pretty much runs like this:
   - Configuring sshd
 - Run `configure_dmz_web.yml`, which:
   - Configures the firewall to only allow traffic from Cloudflare's [IP Ranges](https://www.cloudflare.com/ips/)
-    (will explain more later about this)
-  - Installs and configures certbot to generate certs for the webserver before Apache is configured
+    (more info below)
+  - Installs and configures Certbot to generate certs for the webserver before Apache is configured
   - Installs and configures Apache with base configuration
   - Installs [Hugo](https://gohugo.io)
   - Installs and configures [adnanh/webhook](https://github.com/adnanh/webhook)
   - Configures webhook deployment users, scripts, etc.
 
-## External Steps
-
-I use GitHub's Actions and Runners to handle any changes I make to my website code. My current
+I use GitHub's Actions and runners to handle any changes I make to my website code. My current
 [GitHub workflow](https://github.com/iambryant/xserve-cc/blob/main/.github/workflows/ci.yml) consists of two
 jobs:
 
@@ -72,20 +72,30 @@ jobs:
 The first is self-explanatory; it lints the markdown files in the repository to make sure I formatted
 everything correctly.
 
-The second job deploys the code by sending a webhook to my webserver. The deployment script that it uses is pretty
-simple:
+The second job deploys the code by sending a webhook to my webserver. The deployment script contains these steps: 
 
 ```shell
 #!/bin/sh
-/usr/bin/git clone https://github.com/iambryant/xserve-cc.git /var/webhook/xserve-cc
-/usr/local/bin/hugo -s /var/webhook/xserve-cc -d /var/www/html --cleanDestinationDir > hugo.log 2>&1
-/usr/bin/rm -rf /var/webhook/xserve-cc
+
+REPO_DIR="/var/webhook/xserve-cc"
+REPO_URL="https://github.com/iambryant/xserve-cc.git"
+LOG_FILE="/var/webhook/hugo.log"
+
+# Clone or Update the repository
+if [ -d "$REPO_DIR/.git" ]; then
+    cd "$REPO_DIR" && /usr/bin/git pull
+else
+    /usr/bin/git clone "$REPO_URL" "$REPO_DIR"
+fi
+
+# Build the Hugo site
+/usr/local/bin/hugo -s "$REPO_DIR" -d /var/www/html --cleanDestinationDir --noTimes > "$LOG_FILE" 2>&1
 ```
 
-The repository is cloned to the webhook user's home directory, deployed with Hugo, and then cleaned out. I could
+The repository is pulled/cloned to the webhook user's home directory, and then deployed with Hugo. I could
 technically do this in the GitHub workflow if I wanted the Hugo deployment to be more portable, since Hugo just converts
 all the markdown files to HTML, and the webserver wouldn't need Hugo installed. I may eventually rotate the blog between
-AIX, HP-UX, and Solaris hosts, so having just the HTML files on them would be cleaner than attempting to get Hugo
+AIX, HP-UX, and Solaris hosts, and having just the HTML files on them would be cleaner than attempting to get Hugo
 running on each OS.
 
 ## Architectural Decisions
@@ -137,7 +147,8 @@ thought of restricting the IPs that could trigger the webhook to the GitHub Acti
 
 I got this idea from Jeff Geerling's video,
 [How I survived a DDoS attack](https://www.youtube.com/watch?v=VPcYMgTYQs0&themeRefresh=1), where he mentioned
-restricting the firewall on his VPS to Cloudflare's IP ranges to prevent bypassing Cloudflare's protection.
+restricting the firewall on his VPS to Cloudflare's IP ranges to prevent bypassing Cloudflare's protective
+mechanisms.
 
 However, I noticed that when I tried sending a webhook from a GitHub runner, it would fail each time. I tried disabling
 the firewall on my webserver thinking that I had configured the rules incorrectly. When that failed, I tried switching
