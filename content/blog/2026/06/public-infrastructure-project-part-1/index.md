@@ -4,20 +4,23 @@ tags: ['infrastructure']
 title: 'Public Infrastructure Project (Part 1)'
 slug: 'public-infrastructure-project-part-1'
 ---
-I just completed part 1 of my public infrastructure project. What is it? Well, it's simple. I need to:
+I've recently completed part 1 of my public infrastructure project. The goals I set were as follows:
 
 1. Build and maintain a public-facing website. ✅ **Done!**
 2. Deploy and manage infrastructure across multiple hardware architectures using automation and metrics.
-3. Document the process publicly and publish the work on my [GitHub](https://github.com/iambryant).
+3. Document the process publicly and publish the code on my [GitHub](https://github.com/iambryant).
 
 This blog post will dive into how I got it done and the architectural decisions I made along the way.
 
 ## Getting started
 
-I chose Hugo for my website. I don't really need advanced features like logins or whatnot for a blog website. I also
-really didn't want the overhead of Wordpress, which requires a backend database for your website to function. I picked
-Hugo due to its speed, the fact that I don't need to create my posts in a GUI, and that a static site generator was good
-enough for me. There's also Jekyll but I'm not really a Ruby programmer. I'll link my
+I chose Hugo for this website as my requirements were fairly simple. I didn't need a database, user accounts, or the
+overhead of a full Content Management System (CMS) such as WordPress. I found a Static Site Generator (SSG) to be a 
+much better fit.
+
+I had also considered Jekyll, especially since it's the default choice for GitHub Pages and has excellent integration
+there. I'll still be using it for any GitHub Pages websites I create but went Hugo simply due to preference.
+
 [GitHub repository](https://github.com/iambryant/public-infrastructure-playbook) which contains the Ansible playbooks
 I've written for configuring this website. It pretty much runs like this:
 
@@ -66,7 +69,7 @@ jobs:
           webhook_type: 'json-extended'
 ```
 
-The first is self-explanatory; it lints the markdown files in my Hugo source repository to make sure I formatted
+The first is self-explanatory; it lints the markdown files in the repository to make sure I formatted
 everything correctly.
 
 The second job deploys the code by sending a webhook to my webserver. The deployment script that it uses is pretty
@@ -133,7 +136,7 @@ thought of restricting the IPs that could trigger the webhook to the GitHub Acti
 ```
 
 I got this idea from Jeff Geerling's video,
-[How I survived a DDos attack](https://www.youtube.com/watch?v=VPcYMgTYQs0&themeRefresh=1), where he mentioned
+[How I survived a DDoS attack](https://www.youtube.com/watch?v=VPcYMgTYQs0&themeRefresh=1), where he mentioned
 restricting the firewall on his VPS to Cloudflare's IP ranges to prevent bypassing Cloudflare's protection.
 
 However, I noticed that when I tried sending a webhook from a GitHub runner, it would fail each time. I tried disabling
