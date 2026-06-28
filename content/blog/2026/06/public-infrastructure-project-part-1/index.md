@@ -17,9 +17,9 @@ This blog post will dive into how I got it done and the architectural decisions 
 I chose Hugo for my website. I don't really need advanced features like logins or whatnot for a blog website. I also
 really didn't want the overhead of Wordpress, which requires a backend database for your website to function. I picked
 Hugo due to its speed, the fact that I don't need to create my posts in a GUI, and that a static site generator was good
-enough for me. There's also Jekyll but I'm not a Ruby programmer, and I already get enough of that with Puppet. I'll
-link my [GitHub repository](https://github.com/iambryant/public-infrastructure-playbook) which contains the
-Ansible playbooks I've written for configuring this website. It pretty much does this:
+enough for me. There's also Jekyll but I'm not really a Ruby programmer. I'll link my
+[GitHub repository](https://github.com/iambryant/public-infrastructure-playbook) which contains the Ansible playbooks
+I've written for configuring this website. It pretty much runs like this:
 
 - Run `site.yml`, which contains base configuration tasks such as:
   - Configuring the firewall
@@ -28,8 +28,8 @@ Ansible playbooks I've written for configuring this website. It pretty much does
 - Run `configure_dmz_web.yml`, which:
   - Configures the firewall to only allow traffic from Cloudflare's [IP Ranges](https://www.cloudflare.com/ips/)
     (will explain more later about this)
-  - Installs and configures certbot to generate certs for the webserver before apache is configured
-  - Installs and configures apache with base configuration
+  - Installs and configures certbot to generate certs for the webserver before Apache is configured
+  - Installs and configures Apache with base configuration
   - Installs [Hugo](https://gohugo.io)
   - Installs and configures [adnanh/webhook](https://github.com/adnanh/webhook)
   - Configures webhook deployment users, scripts, etc.
