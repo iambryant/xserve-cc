@@ -229,7 +229,7 @@ and drops it. There's multiple ways you could solve this, such as:
 I went with the second option out of preference. The way I did it was through Cloudflare's
 [origin rules:](https://developers.cloudflare.com/rules/origin-rules/)
 
-![Cloudflare origin rules](cloudflare-origin-rules.jpg)
+![Cloudflare origin rules](cloudflare-origin-rule.jpg)
 
 Essentially, you tell Cloudflare to redirect URL paths starting with /hooks (the url the webhook service accepts
 webhooks on) to port 9000. Whether GitHub sends it as HTTP or HTTPS, as long as it's a valid port to Cloudflare,
