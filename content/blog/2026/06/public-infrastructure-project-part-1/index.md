@@ -81,7 +81,7 @@ simple:
 
 The repository is cloned to the webhook user's home directory, deployed with Hugo, and then cleaned out. I could
 technically do this in the GitHub workflow if I wanted the Hugo deployment to be more portable, since Hugo just converts
-all the markdown files to HTML, and the webserver wouldn't need Hugo. I may eventually rotate the blog between
+all the markdown files to HTML, and the webserver wouldn't need Hugo installed. I may eventually rotate the blog between
 AIX, HP-UX, and Solaris hosts, so having just the HTML files on them would be cleaner than attempting to get Hugo
 running on each OS.
 
@@ -136,9 +136,9 @@ I got this idea from Jeff Geerling's video,
 [How I survived a DDos attack](https://www.youtube.com/watch?v=VPcYMgTYQs0&themeRefresh=1), where he mentioned
 restricting the firewall on his VPS to Cloudflare's IP ranges to prevent bypassing Cloudflare's protection.
 
-However, I noticed that when I tried running the webhook, it would fail each time. I tried disabling the firewall on my
-webserver thinking that I had configured the rules incorrectly. When that failed, I tried switching Cloudflare's proxy
-(which my website is behind) from orange cloud to grey cloud. Suddenly, it worked. Why?
+However, I noticed that when I tried sending a webhook from a GitHub runner, it would fail each time. I tried disabling
+the firewall on my webserver thinking that I had configured the rules incorrectly. When that failed, I tried switching
+Cloudflare's proxy (which my website is behind) from orange cloud to grey cloud. Suddenly, it worked. Why?
 
 Cloudflare is sort of a complicated beast. It's a hybrid between a Web Application Firewall (WAF) and a reverse proxy.
 The first issue that was causing failures was the origin IPs. Since Cloudflare proxies traffic, it doesn't just pass
@@ -160,15 +160,7 @@ traffic from Cloudflare's IP ranges, not GitHub's:
   register: cloudflare_cidr_blocks_v6_raw
   run_once: true
 
-- name: "Fetch GitHub's CIDR blocks"
-  ansible.builtin.uri:
-    url: https://api.github.com/meta
-    method: GET
-    return_content: true
-  register: github_cidr_blocks_raw
-  run_once: true
-
-- name: "Ensure GitHub's CIDR blocks are set as facts"
+- name: "Ensure Cloudflare's CIDR blocks are set as facts"
   ansible.builtin.set_fact:
     cloudflare_cidr_blocks_v4: "{{ cloudflare_cidr_blocks_v4_raw.content.splitlines() }}"
     cloudflare_cidr_blocks_v6: "{{ cloudflare_cidr_blocks_v6_raw.content.splitlines() }}"
@@ -203,7 +195,7 @@ traffic from Cloudflare's IP ranges, not GitHub's:
         state: enabled
 ```
 
-There still however was one more issue: the webserver was not receiving webhooks sent by GitHub runners. By default,
+There was still one more issue: the webserver was not receiving webhooks sent by GitHub runners. By default,
 the webhook service listens on port 9000. Cloudflare, being designed for web traffic, sees it as a non-standard port
 and drops it. There's multiple ways you could solve this, such as:
 
