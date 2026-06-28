@@ -1,5 +1,5 @@
 ---
-date: '2026-06-21'
+date: '2026-06-27'
 tags: ['infrastructure']
 title: 'Public Infrastructure Project (Part 1)'
 slug: 'public-infrastructure-project-part-1'
