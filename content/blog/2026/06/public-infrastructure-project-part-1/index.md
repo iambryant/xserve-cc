@@ -10,7 +10,7 @@ I just completed part 1 of my public infrastructure project. What is it? Well, i
 2. Deploy and manage infrastructure across multiple hardware architectures using automation and metrics.
 3. Document the process publicly and publish the work on my [GitHub](https://github.com/iambryant).
 
-This blog post will dive into how I got it done and the architectural decisions I made along the way. 
+This blog post will dive into how I got it done and the architectural decisions I made along the way.
 
 ## Getting started
 
@@ -22,9 +22,9 @@ link my [GitHub repository](https://github.com/iambryant/public-infrastructure-p
 Ansible playbooks I've written for configuring this website. It pretty much does this:
 
 - Run site.yml, which contains base configuration tasks such as:
-  -  Configuring the firewall
-  -  Configuring NTP
-  -  Configuring sshd
+  - Configuring the firewall
+  - Configuring NTP
+  - Configuring sshd
 - Run deploy_hugo.yml, which:
   - Configures the firewall to only allow traffic from Cloudflare's [IP Ranges](https://www.cloudflare.com/ips/)
     (will explain more later about this)
@@ -66,6 +66,7 @@ jobs:
           webhook_secret: ${{ secrets.WEBHOOK_TOKEN }}
           webhook_type: 'json-extended'
 ```
+
 The first is self-explanatory; it lints the markdown files in my Hugo source repository to make sure I formatted
 everything correctly.
 
@@ -87,7 +88,7 @@ now.
 Anyway, since the webhook user is deploying to a protected directory `/var/www/html`, make sure you give it sudo
 privileges, like this:
 
-```
+```yaml
 - name: "Ensure webhook user can run hugo with sudo"
   community.general.sudoers:
     name: 90-webhook-users
@@ -98,7 +99,6 @@ privileges, like this:
 ```
 
 Ideally you'd restrict the sudo command(s) to the exact commands you'd use in the deployment script for security.
-
 
 ## Reachability
 
