@@ -22,6 +22,7 @@ jobs:
           globs: '**/*.md'
 
   deploy:
+    name: Deploy codebase
     runs-on: ubuntu-latest
     needs: lint
     steps:
