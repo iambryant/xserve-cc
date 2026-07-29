@@ -7,8 +7,8 @@ slug: 'installing-ibm-i'
 
 While working on part 2 of my public infrastructure project, I've been trying to get a license for my IBM S822 to allow
 me to run more than two LPARS. I would like to provide individual LPARs to users for security and also to get the full
-capacity out of my hardware. I have been in contact with [Midland Information Systems](midlandinfosys.com), an IBM
-business partner offering solutions for various IBM products. During the process, I was tasked with this:
+capacity out of my hardware. I have been in contact with [Midland Information Systems](https://midlandinfosys.com), an
+IBM business partner offering solutions for various IBM products. During the process, I was tasked with this:
 
 ```text
 Hey Bryant, 
