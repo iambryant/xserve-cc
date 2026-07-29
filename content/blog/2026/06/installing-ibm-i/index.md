@@ -56,8 +56,8 @@ For a basic install, you'll need the following files:
 The files will either appear in `.iso` or `.udf` format. This does not matter.
 
 By the way, in case you feel I'm explaining too poorly or need more detail, IBM provides a detailed guide
-[here](https://www.ibm.com/docs/en/i/7.6.0?topic=partition-installing-i-release). Just don't forget to change the 
-version to the one you'll be installing.
+[on their website](https://www.ibm.com/docs/en/i/7.6.0?topic=partition-installing-i-release). Just don't forget to
+change the version to the one you'll be installing.
 
 ## Preparation
 
