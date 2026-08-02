@@ -42,8 +42,8 @@ the LPARS.
 
 You will also need IBM i install media. You do not strictly need a license for temporary installs of IBM i. IBM provides
 an [article](https://www.ibm.com/docs/en/entitled-systems-support?topic=software-i-evaluation-nlv-download) detailing
-how you you obtain them. You'll need to create an IBM id so you can access Entitled Systems Support (ESS) to download
-the evaluation images. I'll be using IBM i v7R4 since it's the latest version that my S822 supports. You can choose
+how you you obtain them. You'll need to create an IBMid so you can access Entitled Systems Support (ESS) to download
+the evaluation images. I'll be using IBM i V7R4 since it's the latest version that my S822 supports. You can choose
 to download the files through ESS with IBM's Download Director (recommended for bulk downloads, requires an application
 such as OpenWebStart or IcedTea-Web since it uses `.jnlp` files) or with HTTP (recommended for downloading individual
 files).
@@ -142,8 +142,8 @@ everything correctly, you should see a screen like this:
 
 ![Remote 5250 Console](remote-5250-console.jpg)
 
-For US English, you can type 21. Then you can login with your regular HMC credentials, select the system the
-partition you want to connect to is located, and then that partition.
+For US English, you can type 21. Then you can login with your regular HMC credentials, select the managed system,
+and choose the IBM i partition you want to connect to.
 
 ## Installation
 
