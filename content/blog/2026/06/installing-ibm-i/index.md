@@ -182,3 +182,22 @@ You can now start the partition back up again until you get back to the same men
 in the CDROM (B_GROUP), type `2` to `Install the operating system`, and hit enter. When prompted for the installation
 device type, type `2` for CDROM and hit enter again. Follow the on screen prompts until you reach the
 `Install the Operating System` screen, where you can type `1` and hit enter to start the actual OS install.
+
+During the install, another screen will pop up:
+
+![User Sign On](user-sign-on.jpg)
+
+This is just asking you to sign in as a user as the next menu will ask you to configure the system date and time. For
+the user, you can type `QSECOFR` (which you can think of as the root user for IBM i). On the next screen, enter the
+current date and time and hit enter. You should then return back to the install.
+
+After another couple of minutes, you should be prompted to sign in again. This time it requires a password. You can
+use the same `QSECOFR` for the user and `QSECOFR` again for the password. It'll ask you to change the password, where
+you can type in a new password. You'll then be directed to this screen:
+
+![Software Agreements](software-agreements.jpg)
+
+You can type `5` to view each software agreement, `F15` to accept, and when done, hit enter. Once you've accepted all
+the agreements you should finally be dropped into the IBM i main menu:
+
+![IBM i Main Menu](ibm-i-main-menu.jpg)
