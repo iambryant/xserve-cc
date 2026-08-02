@@ -26,7 +26,7 @@ Press the Enter key.
 4. From the Hardware Service Manager display, press F6 (print configuration).
 5. To return to the AS/400 Main menu, Press F3 (Exit) twice and then press the Enter key.
 6. Keep the printed list - the service representative will need it
-7. Release print job..
+7. Release print job.
 ```
 
 Obviously, this requires an IBM i partition to be installed. This post is going to go through the process I took
@@ -120,7 +120,7 @@ partition like normal and then click on `Console` in the partitions menu and ope
 isn't possible if you're accessing the HMC from a browser. In this case, I recommend using IBM i Access Client
 Solutions. If you're not interested, you can skip to the next section.
 
-IBM i Access Client solutions is IBM's native tool for connecting to IBM i partitions. One of its killer features is
+IBM i Access Client Solutions is IBM's native tool for connecting to IBM i partitions. One of its killer features is
 that it supports connecting directly to the HMC, which runs a 5250 console internally to allow you to view IBM i
 partition consoles. You can read
 [IBM's detailed guide here](https://www.ibm.com/support/pages/ibm-i-access-acs-quick-start-guide) for getting it set up.
@@ -176,7 +176,7 @@ After that, this screen should pop up:
 This confirms that the LIC has been installed. At this point, you can power off the partition, and change the IPL Source
 back to A *(don't change the key lock position back to manual yet!)*
 
-## OS Installation
+## OS Installation (Part 1)
 
 You can now start the partition back up again until you get back to the same menu. Load the first OS installation disk
 in the CDROM (B_GROUP), type `2` to `Install the operating system`, and hit enter. When prompted for the installation
@@ -201,3 +201,24 @@ You can type `5` to view each software agreement, `F15` to accept, and when done
 the agreements you should finally be dropped into the IBM i main menu:
 
 ![IBM i Main Menu](ibm-i-main-menu.jpg)
+
+Success! Almost. Unfortunately, the OS packages aren't completely installed yet. Although IBM says this in their
+installation guide:
+
+```text
+If you are using physical media, load the first volume of installation media that contains the operating system.
+Throughout these procedures, load the next volume when prompted by the system. When you are installing from optical
+media, wait until the In Use indicator goes out before you continue. Also ensure that you have removed other media
+from devices that are not involved in the upgrade.
+```
+
+I have not found this to be the case during the install. Typically the install proceeds just fine with the first B_GROUP
+disk without asking for the rest. If you find this to be the case for your install, check the next section.
+
+## OS Installation (Part 2)
+
+On Linux or Unix, you'd typically use a package manager to update from a network repository. On IBM i, it's a little
+more involved. By default, you install/upgrade core system packages through mounting ISOs and installing from a menu.
+The menu can be accessed by typing `GO LICPGM` to work with programs:
+
+![Work with Licensed Programs](work-with-licensed-programs.jpg)
