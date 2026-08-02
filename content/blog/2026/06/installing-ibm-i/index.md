@@ -145,7 +145,7 @@ everything correctly, you should see a screen like this:
 For US English, you can type 21. Then you can login with your regular HMC credentials, select the managed system,
 and choose the IBM i partition you want to connect to.
 
-## Installation
+## LIC Installation
 
 The partition should be booted, and you should be greeted with this screen:
 
@@ -161,3 +161,24 @@ The rest of the install should be pretty self-explanatory; for the next screen, 
 
 > **Tip**: If your keyboard doesn't have function keys, you can click on `Keypad` under `View` to enable the on-screen
 > function keys.
+
+At some point during the install, this screen should pop up:
+
+![Disk Config Attention Report](disk-config-attention-report.jpg)
+
+You can safely hit `F10` here to tell the system to continue with installing on the disk. It's just the LIC reporting
+that the disk is new to the system, which makes sense since it's a new install.
+
+After that, this screen should pop up:
+
+![IPL or Install](ipl-or-install.jpg)
+
+This confirms that the LIC has been installed. At this point, you can power off the partition, and change the IPL Source
+back to A *(don't change the key lock position back to manual yet!)*
+
+## OS Installation
+
+You can now start the partition back up again until you get back to the same menu. Load the first OS installation disk
+in the CDROM (B_GROUP), type `2` to `Install the operating system`, and hit enter. When prompted for the installation
+device type, type `2` for CDROM and hit enter again. Follow the on screen prompts until you reach the
+`Install the Operating System` screen, where you can type `1` and hit enter to start the actual OS install.
