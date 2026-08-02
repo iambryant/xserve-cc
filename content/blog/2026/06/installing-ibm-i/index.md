@@ -107,7 +107,7 @@ Now you can create a virtual optical device for the LPAR and load the Licensed I
 But wait! **Don't start the partition yet!**. IBM i has some specific quirks due to its age. You'll need to navigate
 to partition properties and verify IPL source is set to `D`. That tells the partition to look at the CDROM instead of
 booting from disk (which would be IPL source `A`). Also make sure key lock position is set to `Manual`, not `Normal`.
-This tells the partition that you want to interact with it instead of booting hands-free. Also, under 
+This tells the partition that you want to interact with it instead of booting hands-free. Also, under
 `Advanced Settings`, click on `Tagged I/O Settings` and set the `Alternate Restart Device` to the CDROM vSCSI device
 so that the partition knows where to boot from.
 
@@ -131,7 +131,7 @@ After everything's been installed, you'll need to open ACS, click on `System Con
 and click `New` to add a new "system". If you were connecting to an existing IBM i server, with TCP/IP and whatnot
 already configured, you could add it directly under `General`. But since we're using the HMC to view the console of the
 IBM i partition, click on `Console` instead, select `HMC 5250 Console`, and enter the hostname/IP address of the HMC
-(you can still add a short name and description for the HMC under `General` so that the HMC can be found in 
+(you can still add a short name and description for the HMC under `General` so that the HMC can be found in
 `System Configurations`). I recommend keeping `Use SSL for connection` enabled since the HMC already comes with
 existing SSL certificates for the web interface. Also make sure that your firewall rules, either between your computer
 and the HMC, or on the HMC directly, allow ports 2300/2301 over HTTP/HTTPS for console access
@@ -142,7 +142,7 @@ everything correctly, you should see a screen like this:
 
 ![Remote 5250 Console](remote-5250-console.jpg)
 
-For US English, you can type 21. Then you can login with your regular HMC credentials, select the system the 
+For US English, you can type 21. Then you can login with your regular HMC credentials, select the system the
 partition you want to connect to is located, and then that partition.
 
 ## Installation
