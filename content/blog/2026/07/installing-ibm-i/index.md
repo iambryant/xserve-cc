@@ -57,8 +57,8 @@ The files will either appear in `.iso` or `.udf` format. This does not matter.
 
 By the way, in case you feel I'm explaining too poorly or need more detail, IBM provides detailed guides here:
 
-- https://www.ibm.com/docs/en/i/7.4.0?topic=partition-installing-i-release (web version)
-- https://www.ibm.com/docs/en/ssw_ibm_i_74/pdf/sc415120.pdf (PDF version)
+- [Web version](https://www.ibm.com/docs/en/i/7.4.0?topic=partition-installing-i-release)
+- [PDF version](https://www.ibm.com/docs/en/ssw_ibm_i_74/pdf/sc415120.pdf)
 
 Just don't forget to change the guide versions to the version of IBM i that you'll be installing.
 
@@ -241,7 +241,7 @@ On Linux or Unix, you'd typically use a package manager to update from a network
 more involved. By default, you install/upgrade core system packages through mounting ISOs and installing from a menu.
 The menu can be accessed by typing `GO LICPGM` to work with programs:
 
-#![Work with Licensed Programs](work-with-licensed-programs.jpg)
+# ![Work with Licensed Programs](work-with-licensed-programs.jpg)
 
 ```text
 LICPGM                      Work with Licensed Programs
