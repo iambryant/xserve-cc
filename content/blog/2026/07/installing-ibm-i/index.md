@@ -55,9 +55,12 @@ For a basic install, you'll need the following files:
 
 The files will either appear in `.iso` or `.udf` format. This does not matter.
 
-By the way, in case you feel I'm explaining too poorly or need more detail, IBM provides a detailed guide
-[on their website](https://www.ibm.com/docs/en/i/7.6.0?topic=partition-installing-i-release). Just don't forget to
-change the version to the one you'll be installing.
+By the way, in case you feel I'm explaining too poorly or need more detail, IBM provides detailed guides here:
+
+- https://www.ibm.com/docs/en/i/7.4.0?topic=partition-installing-i-release (web version)
+- https://www.ibm.com/docs/en/ssw_ibm_i_74/pdf/sc415120.pdf (PDF version)
+
+Just don't forget to change the guide versions to the version of IBM i that you'll be installing.
 
 ## Preparation
 
@@ -217,8 +220,63 @@ disk without asking for the rest. If you find this to be the case for your insta
 
 ## OS Installation (Part 2)
 
+To finish installing the base system, I'll follow IBM's documentation here:
+
+```text
+Do the following to put the system in a restricted state and filter the messages that appear.
+a. Type CHGMSGQ QSYSOPR *BREAK SEV(60) and press Enter.
+b. A message display could appear. Press Enter.
+c. Type ENDSBS *ALL *IMMED and press Enter.
+d. When the following message appears, press Enter to continue:
+ENDSBS SBS(*ALL) command being processed
+e. The message System ended to restricted condition appears. Press Enter to continue.
+f. Type CHGMSGQ QSYSOPR SEV(95) and press Enter.
+g. A message display could appear. Press Enter.
+```
+
+This will halt all subsystems other than those explicity necessary to allow me to install new OS libraries or reinstall
+broken ones (such as QGPL and QUSRSYS).
+
 On Linux or Unix, you'd typically use a package manager to update from a network repository. On IBM i, it's a little
 more involved. By default, you install/upgrade core system packages through mounting ISOs and installing from a menu.
 The menu can be accessed by typing `GO LICPGM` to work with programs:
 
-![Work with Licensed Programs](work-with-licensed-programs.jpg)
+#![Work with Licensed Programs](work-with-licensed-programs.jpg)
+
+```text
+LICPGM                      Work with Licensed Programs
+                                                              System: XXXX
+Select one of the following:
+
+  Manual Install
+    1. Install all
+
+  Preparation
+    5. Prepare for install
+
+  Licensed Programs
+    10. Display installed licensed programs
+    11. Install licensed programs
+    12. Delete licensed programs
+    13. Save licensed programs
+```
+
+Again, following IBM's documentation, I'll do the following:
+
+```text
+On the Work with Licensed Programs display, either type 1 (Install all) or type 11 (Install
+licensed programs). Read the following note to help you decide.
+Note: If you want to install all licensed programs that are on the distribution media, use Manual
+Install option 1, Install all. This will save time for the installation. If you want most of the
+licensed programs on the media, then Manual Install option 1 is also the preferred choice. You will
+have to delete the extra unwanted licensed programs. The Manual Install display appears after
+selecting Manual Install option 1.
+Type the following on this display:
+• Install option: 2 (2=all products)
+• Installation device: OPT01
+• Replace if current: N
+• Nonaccepted agreement: 2 (2=Display software agreement)
+• Automatic IPL: N
+In this example, OPT01 is used for the installation device. If you use a different naming convention,
+type the name that you have assigned to the installation device.
+```
