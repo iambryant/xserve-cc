@@ -216,7 +216,11 @@ from devices that are not involved in the upgrade.
 ```
 
 I have not found this to be the case during the install. Typically the install proceeds just fine with the first B_GROUP
-disk without asking for the rest. If you find this to be the case for your install, check the next section.
+disk without asking for the rest. This results in an unfinished installation state like this:
+
+[insert missing image]
+
+If you find this to be the case for your install, check the next section.
 
 ## OS Installation (Part 2)
 
@@ -293,5 +297,14 @@ Type reply (if required), press Enter.
     Reply . . . . G
 ```
 
-This means that the first media volume has been read from and it's time to add the next (B_GROUP). I'll unload the
-first ISO, then load the next and type G to continue with the install.
+This means that the first media volume has been read from and it's time to load the next (B_GROUP). I'll unload the
+first ISO, then load the next and type G to continue with the install. I'll continue to do this for the rest of my
+B_GROUP ISOs as the menu pops up until I reach the last ISO, where when the menu pops up again I'll just type X to let
+the installer know I'm done with loading media volumes. Fast forward a couple of hours and my system is now fully
+installed:
+
+![Successful Install](successful-install.jpg)
+
+Since everything looks good, I can now shut down the system with `PWRDWNSYS OPTION(*CNTRLD)`, wait for the partition
+to shut down, and switch the key lock position back to normal. I hope this guide helped illustrate what it's like to
+install IBM i.
