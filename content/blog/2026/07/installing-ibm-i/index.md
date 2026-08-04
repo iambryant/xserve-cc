@@ -246,8 +246,8 @@ more involved. By default, you install/upgrade core system packages through moun
 The menu can be accessed by typing `GO LICPGM` to work with programs:
 
 ```text
-LICPGM                      Work with Licensed Programs
-                                                              System: XXXX
+LICPGM              Work with Licensed Programs
+                                                  System: XXXX
 Select one of the following:
 
   Manual Install
@@ -305,6 +305,5 @@ installed:
 
 ![Successful Install](successful-install.jpg)
 
-Since everything looks good, I can now shut down the system with `PWRDWNSYS OPTION(*CNTRLD)`, wait for the partition
-to shut down, and switch the key lock position back to normal. I hope this guide helped illustrate what it's like to
-install IBM i.
+Since everything looks good, I can now shut down the partition and switch the key lock position back to normal. I hope
+this guide helped illustrate what it's like to install IBM i.
