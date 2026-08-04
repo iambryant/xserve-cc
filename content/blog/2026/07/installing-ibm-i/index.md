@@ -278,3 +278,20 @@ Type the following on this display:
 In this example, OPT01 is used for the installation device. If you use a different naming convention,
 type the name that you have assigned to the installation device.
 ```
+
+Now the install should begin. At some point, the following screen will pop up:
+
+```text
+                                    Display Messages
+                                                          System: XXXX
+Queue . . . . . : QSYSOPR                       Program . . . . : *DSPMSG
+  Library . . . : QSYS                            Library . . . :
+Severity . . . . : 95                           Delivery . . . : *BREAK
+
+Type reply (if required), press Enter.
+  Load the next volume in optical device OPT01 (X G)
+    Reply . . . . G
+```
+
+This means that the first media volume has been read from and it's time to add the next (B_GROUP). I'll unload the
+first ISO, then load the next and type G to continue with the install.
