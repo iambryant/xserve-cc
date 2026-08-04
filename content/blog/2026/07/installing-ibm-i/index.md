@@ -282,11 +282,11 @@ type the name that you have assigned to the installation device.
 Now the install should begin. At some point, the following screen will pop up:
 
 ```text
-                                    Display Messages
-                                                          System: XXXX
-Queue . . . . . : QSYSOPR                       Program . . . . : *DSPMSG
-  Library . . . : QSYS                            Library . . . :
-Severity . . . . : 95                           Delivery . . . : *BREAK
+                           Display Messages
+                                                 System: XXXX
+Queue . . . . . : QSYSOPR              Program . . . . : *DSPMSG
+  Library . . . : QSYS                   Library . . . :
+Severity . . . . : 95                  Delivery . . . : *BREAK
 
 Type reply (if required), press Enter.
   Load the next volume in optical device OPT01 (X G)
