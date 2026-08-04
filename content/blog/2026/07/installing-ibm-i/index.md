@@ -241,8 +241,6 @@ On Linux or Unix, you'd typically use a package manager to update from a network
 more involved. By default, you install/upgrade core system packages through mounting ISOs and installing from a menu.
 The menu can be accessed by typing `GO LICPGM` to work with programs:
 
-# ![Work with Licensed Programs](work-with-licensed-programs.jpg)
-
 ```text
 LICPGM                      Work with Licensed Programs
                                                               System: XXXX
