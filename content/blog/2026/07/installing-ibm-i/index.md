@@ -1,4 +1,4 @@
----
+---®
 date: '2026-07-29'
 tags: ['ibm, os400']
 title: 'Installing IBM i'
@@ -218,7 +218,7 @@ from devices that are not involved in the upgrade.
 I have not found this to be the case during the install. Typically the install proceeds just fine with the first B_GROUP
 disk without asking for the rest. This results in an unfinished installation state like this:
 
-[Incomplete Install](incomplete-install.jpg)
+![Incomplete Install](incomplete-install.jpg)
 
 If you find this to be the case for your install, check the next section.
 
