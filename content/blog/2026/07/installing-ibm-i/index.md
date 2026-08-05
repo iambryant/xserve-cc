@@ -1,4 +1,4 @@
----®
+---
 date: '2026-07-29'
 tags: ['ibm, os400']
 title: 'Installing IBM i'
