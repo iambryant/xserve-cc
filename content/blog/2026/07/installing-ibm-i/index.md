@@ -165,7 +165,7 @@ The rest of the install should be pretty self-explanatory; for the next screen, 
 > **Tip**: If your keyboard doesn't have function keys, you can click on `Keypad` under `View` to enable the on-screen
 > function keys.
 
-IBM's documentation states that the "Disk Configuration Attention Report" display could appear. Sure enough:
+IBM's documentation states that the "Disk Configuration Attention Report" display could appear during the install:
 
 ```text
                      Disk Configuration Attention Report
@@ -191,9 +191,9 @@ Opt Problem
 F3=Exit F10=Accept the problems and continue F12=Cancel
 ```
 
-In my case, since I'm installing IBM i in an LPAR, it's letting me know that only one disk was found. Usually this
-doesn't matter since the backend disk(s) for the LPAR would be mirrored/in an array, but it doesn't hurt to be reminded.
-I'll just hit `F10` here to continue. After that, this screen should pop up:
+Sure enough, it pops up. In my case, since I'm installing IBM i in an LPAR, it's letting me know that only one disk was
+found. Usually this doesn't matter since the backend disk(s) for the LPAR would be mirrored/in an array, but it doesn't
+hurt to be reminded. I'll just hit `F10` here to continue. After that, this screen should pop up:
 
 ![IPL or Install](ipl-or-install.jpg)
 
