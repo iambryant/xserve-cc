@@ -219,7 +219,7 @@ During the install, another screen will pop up:
         Program/procedure . . . . . . . ________
         Menu. . . . . . . . . . . . . . ________
         Current library . . . . . . . . ________
-```text
+```
 
 This is just asking you to sign in as a user as the next menu will ask you to configure the system date and time. For
 the user, you can type `QSECOFR` (which you can think of as the root user for IBM i). On the next screen, enter the
