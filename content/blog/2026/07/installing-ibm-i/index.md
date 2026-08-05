@@ -66,7 +66,7 @@ Just don't forget to change the guide versions to the version of IBM i that you'
 
 Before we can begin to install, you'll need to do three things:
 
-- Create a virtual edia library on the VIOS, from the HMC
+- Create a virtual media library on the VIOS, from the HMC
 - Upload the OS files to the VIOS (e.g. through SCP)
 - Import the OS files into the virtual media library
 
@@ -209,7 +209,17 @@ device type, type `2` for CDROM and hit enter again. Follow the on screen prompt
 
 During the install, another screen will pop up:
 
-![User Sign On](user-sign-on.jpg)
+```text
+                              Sign On
+                                        System. . . . : XXX
+                                        Subsystem . . : XXXXX
+                                        Display . . . : XXXXXXXX
+
+        User. . . . . . . . . . . . . . QSECOFR
+        Program/procedure . . . . . . . ________
+        Menu. . . . . . . . . . . . . . ________
+        Current library . . . . . . . . ________
+```text
 
 This is just asking you to sign in as a user as the next menu will ask you to configure the system date and time. For
 the user, you can type `QSECOFR` (which you can think of as the root user for IBM i). On the next screen, enter the
