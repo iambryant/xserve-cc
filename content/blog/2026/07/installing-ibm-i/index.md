@@ -66,12 +66,12 @@ Just don't forget to change the guide versions to the version of IBM i that you'
 
 Before we can begin to install, you'll need to do three things:
 
-- Create a Virtual Media Library on the VIOS, from the HMC
+- Create a virtual edia library on the VIOS, from the HMC
 - Upload the OS files to the VIOS (e.g. through SCP)
-- Import the OS files into the Virtual Media Library
+- Import the OS files into the virtual media library
 
-To create the Virtual Media Library, just navigate to the VIOS partition you want to create it on. Then, you can click
-on the Virtual Media Library tab and create one:
+To create the virtual media library, just navigate to the VIOS partition you want to create it on. Then, you can click
+on the virtual media library tab and create one:
 
 ![Virtual Media Library Tab](virtual-media-library-tab.jpg)
 
@@ -84,11 +84,11 @@ Now, the volume group should be created. You can begin by uploading the needed O
 `scp <filename> padmin@<vios_hostname>:/home/padmin/`
 
 This will upload the file to the home directory of your VIOS user. When completed, you'll be able to import the file
-into the Virtual Media Library by clicking the add button:
+into the virtual media library by clicking the add button:
 
 ![Add Virtual Media](add-virtual-media.jpg)
 
-Where `Media name` is the name of the file as it should appear in the Virtual Media Library, and
+Where `Media name` is the name of the file as it should appear in the virtual media library, and
 `Optical media file name` is the full path of the location of the media file (e.g. `/home/padmin/<filename>`).
 
 After clicking create, you can upload more files as needed to the VIOS. During this workflow, I recommend deleting the
@@ -218,7 +218,7 @@ from devices that are not involved in the upgrade.
 I have not found this to be the case during the install. Typically the install proceeds just fine with the first B_GROUP
 disk without asking for the rest. This results in an unfinished installation state like this:
 
-[insert missing image]
+[Incomplete Install](incomplete-install.jpg)
 
 If you find this to be the case for your install, check the next section.
 
@@ -303,7 +303,7 @@ B_GROUP ISOs as the menu pops up until I reach the last ISO, where when the menu
 the installer know I'm done with loading media volumes. Fast forward a couple of hours and my system is now fully
 installed:
 
-![Successful Install](successful-install.jpg)
+![Complete Install](complete-install.jpg)
 
 Since everything looks good, I can now shut down the partition and switch the key lock position back to normal. I hope
 this guide helped illustrate what it's like to install IBM i.
