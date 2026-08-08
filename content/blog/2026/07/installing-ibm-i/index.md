@@ -6,7 +6,7 @@ slug: 'installing-ibm-i'
 ---
 
 While working on part 2 of my public infrastructure project, I've been trying to get a license for my IBM S822 to allow
-me to run more than two LPARS. I would like to provide individual LPARs to users for security and also to get the full
+me to run more than two LPARs. I would like to provide individual LPARs to users for security and also to get the full
 capacity out of my hardware. I have been in contact with [Midland Information Systems](https://midlandinfosys.com), an
 IBM business partner offering solutions for various IBM products. During the process, I was tasked with this:
 
@@ -38,7 +38,7 @@ My method involved installing IBM i in a logical partition. You could install it
 since I want to run other LPARs on my S822 server I went with installing it in a logical partition. **You will need an
 HMC/vHMC and VIOS partition to do this.** I can't explain the installation of those in detail in this blog post as
 it would take too long. But just know that you'll need an HMC for managing the server and a VIOS for handling I/O for
-the LPARS.
+the LPARs.
 
 You will also need IBM i install media. You do not strictly need a license for temporary installs of IBM i. IBM provides
 an [article](https://www.ibm.com/docs/en/entitled-systems-support?topic=software-i-evaluation-nlv-download) detailing
