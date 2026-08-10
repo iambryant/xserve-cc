@@ -19,5 +19,5 @@ I specialize in diving into complex environments and finding ways to make them a
 
 * **Linux & Systems:** Experience across Linux, AIX, HP-UX, and Solaris, as well as architectures such as Itanium,
                        PA-RISC, POWER, and SPARC.
-* **Networking:** Configuring and managing Juniper and Brocade environments.
+* **Networking:** Configuring and managing Cisco and Juniper environments.
 * **Automation:** Building infrastructure as code and streamlining workflows using Ansible and Puppet.

@@ -8,17 +8,7 @@ slug: 'first-post'
 ![Website](xserve-cc.png?#centered)
 
 Welcome! This site is intended to document my homelab, infrastructure projects, and the various hardware platforms I
-work with. If you're curious about different server environments, check out the [servers](https://xserve.cc/servers)
-section.
-
-## Development Environments
-
-This site provides access to isolated virtual machines for development and testing on multiple CPU architectures,
-including Itanium, POWER, and SPARC.
-
-Each environment is intended for software development, experimentation, and portability testing on non-standard systems.
-
-Infrastructure is managed using Ansible, with monitoring and metrics handled by Munin.
+work with.
 
 ## Why?
 
