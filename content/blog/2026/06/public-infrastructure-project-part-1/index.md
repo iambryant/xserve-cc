@@ -23,22 +23,6 @@ there. I'll still be using it for any GitHub Pages websites I create but I went 
 
 ## Deployment & Automation
 
-My [GitHub repository here](https://github.com/iambryant/public-infrastructure-playbook) contains the Ansible playbooks
-I've written for configuring this website. It runs in this order currently:
-
-- Run `site.yml`, which contains base configuration tasks such as:
-  - Configuring the firewall
-  - Configuring NTP
-  - Configuring sshd
-- Run `configure_dmz_web.yml`, which:
-  - Configures the firewall to only allow traffic from Cloudflare's [IP Ranges](https://www.cloudflare.com/ips/)
-    (more info below)
-  - Installs and configures Certbot to generate certs for the webserver before Apache is configured
-  - Installs and configures Apache with base configuration
-  - Installs [Hugo](https://gohugo.io)
-  - Installs and configures [adnanh/webhook](https://github.com/adnanh/webhook)
-  - Configures webhook deployment users, scripts, etc.
-
 I use GitHub's Actions and runners to handle any changes I make to my website code. My current
 [GitHub workflow](https://github.com/iambryant/xserve-cc/blob/main/.github/workflows/ci.yml) consists of two
 jobs:
