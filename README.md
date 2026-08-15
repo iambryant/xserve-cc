@@ -23,7 +23,7 @@ My website uses an automated CI/CD pipeline triggered by GitHub Actions:
 3. **Execution:** I use [webhook](https://github.com/adnanh/webhook), which runs on my webserver and executes my
    deployment script.
 
-For a deeper dive into how this setup works, check out my [blog post here](https://xserve.cc/404.html).
+For a deeper dive into how this setup works, check out my [blog post here](https://www.xserve.cc/blog/2026/06/public-infrastructure-project-part-1/).
 
 ## License
 
