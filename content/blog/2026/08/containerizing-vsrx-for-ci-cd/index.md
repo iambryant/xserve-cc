@@ -75,7 +75,7 @@ these steps:
   Run `docker images` to confirm this.
 
 Unless you're specifically making a container image for the vSRX 2.0 architecture, you can ignore any mentions of it.
-vSRX 2.0 is a long obsolete implementation of the vSRX appliance that splits it's function into two VMs rather than
+vSRX 2.0 is a long obsolete implementation of the vSRX appliance that splits its function into two VMs rather than
 one like vSRX 3.0.
 
 > **Note**: Don't worry about the fact that the vSRX evaluation images say they have a 60-day limit. If you're using
