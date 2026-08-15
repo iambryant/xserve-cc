@@ -193,4 +193,4 @@ Once the command completes successfully, you can click on your profile in the to
 ![Docker Image In Packages](docker-image-in-packages.jpg)
 
 If you click on the image, and then click on `Package settings`, and scroll to the bottom, you should see that GitHub
-already made the package visibiliy private for you. 
+already made the package visibiliy private for you.
