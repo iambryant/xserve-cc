@@ -57,7 +57,7 @@ running:
 
 `curl -sL https://containerlab.dev/setup | sudo -E bash -s "all"`
 
-Now, we'll need to install vrnetlab to create the container image. You can clone the repository with this command
+Now, we'll need to clone the vrnetlab repository to create the container image. You can use this command
 (taken from the guide):
 
 `git clone https://github.com/srl-labs/vrnetlab`
