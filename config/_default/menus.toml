@@ -21,6 +21,11 @@
   weight = 20
 
 [[main]]
+  name = "RSS"
+  pageRef = "RSS"
+  weight = 30
+
+[[main]]
   name = "GitHub"
   url = "https://github.com/iambryant"
   weight = 40
