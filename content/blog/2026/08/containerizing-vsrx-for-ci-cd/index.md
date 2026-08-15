@@ -71,7 +71,7 @@ these steps:
 
 - Download the vSRX 3.0 trial `.qcow2` image from <https://support.juniper.net/support/downloads/?p=vsrx-evaluation>
   and place it in this directory. A Juniper account is required to download the evaluation image.
-- After typing `make`, a new image will appear called `vrnetlab/vjunosevolved`.
+- After typing `make`, a new image will appear called `vrnetlab/juniper_vsrx`.
   Run `docker images` to confirm this.
 
 Unless you're specifically making a container image for the vSRX 2.0 architecture, you can ignore any mentions of it.
