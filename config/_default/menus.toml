@@ -22,7 +22,7 @@
 
 [[main]]
   name = "RSS"
-  pageRef = "RSS"
+  pageRef = "rss"
   weight = 30
 
 [[main]]
