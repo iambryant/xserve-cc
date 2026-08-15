@@ -60,7 +60,7 @@ running:
 Now, we'll need to clone the vrnetlab repository to create the container image. You can use this command
 (taken from the guide):
 
-`git clone https://github.com/srl-labs/vrnetlab`
+`git clone https://GitHub.com/srl-labs/vrnetlab`
 
 Since we're making a container image for the Juniper vSRX, we'll navigate to the `vsrx` directory:
 
@@ -118,3 +118,79 @@ You should get an SSH prompt, and entering the password should drop you straight
 Last login: Sat Aug 15 04:30:11 2026 from 172.20.20.1
 --- JUNOS 23.4R2-S5.5 Kernel 64-bit XEN JNPR-12.1-20250430.960aa75_buil
 ```
+
+## Pushing the Image to a Registry
+
+Now that we've created a working container image for the vSRX, you probably want to reuse it for CI/CD workflows. Before
+pushing it, I want to err on the side of caution and warn you to not push the image publically. Juniper appliances like
+the vSRX and cSRX are licensed products and aren't allowed to be distributed. I'll be uploading my image to GitHub's
+Container Registry for native integration with my runners so keep reading if you'd like to learn how to do it safely.
+
+Following [GitHub's guide here](https://docs.GitHub.com/en/packages/working-with-a-GitHub-packages-registry/working-with-the-container-registry),
+we'll need to create a Personal Access Token (PAT) to be able to authenticate with their registry. On the GitHub home
+page, click on your profile in the top right corner, then click `settings`. In settings, you'll want to click on
+`credentials` and select `Personal access tokens (classic)`. You'll then click on `Generate new token`, and opt to
+generate a classic token. You can use GitHub's notes in the guide to decide what permissions you'll want to use for the
+token. I'm going to go with just `write:packages` so that I can upload the image:
+
+```text
+By default, when you select the write:packages scope for your personal access token (classic) in the user interface,
+the repo scope will also be selected. The repo scope offers unnecessary and broad access, which we recommend you avoid
+using for GitHub Actions workflows in particular. For more information, see Compromised runners. As a workaround, you
+can select just the write:packages scope for your personal access token (classic) in the user interface with this url: 
+<https://github.com/settings/tokens/new?scopes=write:packages>.
+- Select the read:packages scope to download container images and read their metadata.
+- Select the write:packages scope to download and upload container images and read and write their metadata.
+- Select the delete:packages scope to delete container images.
+```
+
+After you've created the token, you should copy it and store it somewhere safe for reusability. Now we can use it to
+login to the registry with docker. Again, following GitHub's guide, you can use the following commands:
+
+```text
+Save your personal access token (classic). We recommend saving your token as an environment variable.
+
+export CR_PAT=YOUR_TOKEN
+Using the CLI for your container type, sign in to the Container registry service at ghcr.io.
+
+$ echo $CR_PAT | docker login ghcr.io -u USERNAME --password-stdin
+> Login Succeeded
+```
+
+Once you received `Login Succeeded`, you'll need to tag the image to be able to push it to their registry:
+
+```text
+docker images
+REPOSITORY                                TAG           IMAGE ID       CREATED        SIZE
+vrnetlab/juniper_vsrx                     23.4R2-S5.5   d9c3225ec439   19 hours ago   1.3GB
+
+docker tag d9c3225ec439 ghcr.io/iambryant/vrnetlab/juniper_vsrx:23.4R2-S5.5
+
+docker images
+REPOSITORY                                TAG           IMAGE ID       CREATED        SIZE
+vrnetlab/juniper_vsrx                     23.4R2-S5.5   d9c3225ec439   20 hours ago   1.3GB
+ghcr.io/iambryant/vrnetlab/juniper_vsrx   23.4R2-S5.5   d9c3225ec439   20 hours ago   1.3GB
+
+docker push ghcr.io/iambryant/vrnetlab/juniper_vsrx:23.4R2-S5.5
+The push refers to repository [ghcr.io/iambryant/vrnetlab/juniper_vsrx]
+ce9e217ed60f: Pushed 
+71b0ef9c7411: Pushed 
+923c7950b782: Pushed 
+0c416208e642: Pushed 
+de30d8503ad3: Mounted from srl-labs/vrnetlab-base 
+fc0da4285c1d: Mounted from srl-labs/vrnetlab-base 
+5d88209bab3b: Mounted from srl-labs/vrnetlab-base 
+74523ebcfaac: Mounted from srl-labs/vrnetlab-base 
+611fcc0c48d8: Mounted from srl-labs/vrnetlab-base 
+072209ca18d3: Mounted from srl-labs/vrnetlab-base 
+f4f8b983b714: Mounted from srl-labs/vrnetlab-base 
+23.4R2-S5.5: digest: sha256:67b11f721afeb755add96da7a71e9d5d1b3151fb88d91a9f1610475ea836bcca size: 2625
+```
+
+Once the command completes successfully, you can click on your profile in the top right corner in GitHub, click the
+`profile` tab, then click on the `Packages` tab in your profile, and the image should be uploaded:
+
+![Docker Image In Packages](docker-image-in-packages.jpg)
+
+If you click on the image, and then click on `Package settings`, and scroll to the bottom, you should see that GitHub
+already made the package visibiliy private for you. 
