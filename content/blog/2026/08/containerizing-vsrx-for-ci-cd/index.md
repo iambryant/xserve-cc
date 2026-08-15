@@ -122,8 +122,8 @@ Last login: Sat Aug 15 04:30:11 2026 from 172.20.20.1
 ## Pushing the Image to a Registry
 
 Now that we've created a working container image for the vSRX, you probably want to reuse it for CI/CD workflows. Before
-pushing it, I want to err on the side of caution and warn you to not push the image publically. *Juniper appliances like
-the vSRX and cSRX are licensed products and aren't allowed to be distributed.* I'll be uploading my image to GitHub's
+pushing it, I want to err on the side of caution and warn you to not push the image publically. **Juniper appliances like
+the vSRX and cSRX are licensed products and aren't allowed to be distributed.** I'll be uploading my image to GitHub's
 Container Registry for native integration with my runners so keep reading if you'd like to learn how to do it safely.
 
 Following [GitHub's guide here](https://docs.GitHub.com/en/packages/working-with-a-GitHub-packages-registry/working-with-the-container-registry),
