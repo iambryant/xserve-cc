@@ -14,6 +14,7 @@ I specialize in diving into complex environments and finding ways to make them a
 
 * RHCSA
 * RHCE
+* JNCIA-Junos
 
 ## Skills & Technologies
 
