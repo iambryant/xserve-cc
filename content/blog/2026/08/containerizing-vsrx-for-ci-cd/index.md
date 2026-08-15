@@ -38,7 +38,7 @@ namespaces, etc. in order to wire them together, which can be very unintuitive. 
 solving this currently are GNS3 and EVE-NG. They work by running network appliances in VMs and handling the network
 connections behind the scenes. The main drawback of them, though, is that they're heavy and designed for human
 interaction, not for CI/CD. They utilize VMs behind the hood to run network appliances typically over KVM/QEMU. There is
-another solution, called [Containerlab](https://containerlab.dev), which is what I want to talk about today.
+another solution, called [containerlab](https://containerlab.dev), which is what I want to talk about today.
 Instead of running VMs for each network appliance, which lengthens size and boot times, containerlab uses Docker behind
 the scenes for running them. The issue with this approach, however, is that it obviously doesn't support VMs. The
 network vendor you download images from will need to support/offer container images. Containerlab came up with a
