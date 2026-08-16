@@ -160,18 +160,18 @@ $ echo $CR_PAT | docker login ghcr.io -u USERNAME --password-stdin
 Once you received `Login Succeeded`, you'll need to tag the image to be able to push it to their registry:
 
 ```text
-docker images
+user@testvm:~$ docker images
 REPOSITORY                                TAG           IMAGE ID       CREATED        SIZE
 vrnetlab/juniper_vsrx                     23.4R2-S5.5   d9c3225ec439   19 hours ago   1.3GB
 
-docker tag d9c3225ec439 ghcr.io/iambryant/vrnetlab/juniper_vsrx:23.4R2-S5.5
+user@testvm:~$ docker tag d9c3225ec439 ghcr.io/iambryant/vrnetlab/juniper_vsrx:23.4R2-S5.5
 
-docker images
+user@testvm:~$ docker images
 REPOSITORY                                TAG           IMAGE ID       CREATED        SIZE
 vrnetlab/juniper_vsrx                     23.4R2-S5.5   d9c3225ec439   20 hours ago   1.3GB
 ghcr.io/iambryant/vrnetlab/juniper_vsrx   23.4R2-S5.5   d9c3225ec439   20 hours ago   1.3GB
 
-docker push ghcr.io/iambryant/vrnetlab/juniper_vsrx:23.4R2-S5.5
+user@testvm:~$ docker push ghcr.io/iambryant/vrnetlab/juniper_vsrx:23.4R2-S5.5
 The push refers to repository [ghcr.io/iambryant/vrnetlab/juniper_vsrx]
 ce9e217ed60f: Pushed 
 71b0ef9c7411: Pushed 
