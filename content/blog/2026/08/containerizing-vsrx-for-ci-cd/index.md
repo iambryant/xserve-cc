@@ -41,9 +41,9 @@ interaction, not for CI/CD. They utilize VMs behind the hood to run network appl
 another solution, called [containerlab](https://containerlab.dev), which is what I want to talk about today.
 Instead of running VMs for each network appliance, which lengthens size and boot times, containerlab uses Docker behind
 the scenes for running them. The issue with this approach, however, is that it obviously doesn't support VMs. The
-network vendor you download images from will need to support/offer container images. Containerlab came up with a
-solution for this, called vrnetlab. Vrnetlab is a simple tool that allows you to package VM-based network appliances
-into container images so that you can run them alongside your native container images in Docker.
+network vendor you download images from will need to provide container images. Containerlab came up with a solution for
+this, however, called vrnetlab. Vrnetlab is a simple tool that allows you to package VM-based network appliances into
+container images so that you can run them alongside your native container images in Docker.
 
 ## Creating Container Images
 
