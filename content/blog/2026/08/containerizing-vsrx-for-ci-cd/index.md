@@ -83,7 +83,7 @@ one like vSRX 3.0.
 > you're running the vSRX as a long-lived appliance.
 
 Once it's installed, we can create a simple topology file to get a basic vSRX container running. We'll use the local
-docker image that was created (change the tag if you created the container based on a different release of vSRX):
+Docker image that was created (change the tag if you created the container based on a different release of vSRX):
 
 ```yaml
 name: vsrx-testing
@@ -95,7 +95,7 @@ topology:
 ```
 
 Now, you can run `sudo containerlab deploy`. It should take 5-10 minutes for the vSRX to boot (it's a VM booting in a
-docker container, after all).
+Docker container, after all).
 
 Once you're able to run `docker logs <container_name>` and it returns this message, you're in business:
 
@@ -145,7 +145,7 @@ can select just the write:packages scope for your personal access token (classic
 ```
 
 After you've created the token, you should copy it and store it somewhere safe for reusability. Now we can use it to
-login to the registry with docker. Again, following GitHub's guide, you can use the following commands:
+login to the registry with Docker. Again, following GitHub's guide, you can use the following commands:
 
 ```text
 Save your personal access token (classic). We recommend saving your token as an environment variable.
