@@ -197,7 +197,7 @@ already made the package visibility private for you.
 
 ## Using the vSRX Image for CI/CD
 
-To show how to use this newly created image for CI/CD, here's a `ci.yml` you could use in GitHub Actions, for example:
+To show how to use this newly created image for CI/CD, here's an example `ci.yml` you could use in GitHub Actions:
 
 ```yaml
 ---
