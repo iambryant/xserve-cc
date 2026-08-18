@@ -230,7 +230,7 @@ jobs:
       - name: Install containerlab.
         run: bash -c "$(curl -sL https://get.containerlab.dev)"
 
-      - name: Deploy containerlab topology
+      - name: Deploy containerlab topology.
         run: containerlab deploy -t clab.yml
 ```
 
