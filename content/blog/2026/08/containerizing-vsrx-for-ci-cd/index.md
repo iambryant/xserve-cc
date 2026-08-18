@@ -5,7 +5,7 @@ title: 'Containerizing vSRX for CI/CD'
 slug: 'containerizing-vsrx-for-ci-cd'
 ---
 
-I use Juniper extensibly in my own environment, in fact, the first Juniper devices I ever worked on were an SRX240 and
+I use Juniper extensively in my own environment, in fact, the first Juniper devices I ever worked on were an SRX240 and
 an EX4500. Fast forward to today and I now own an SRX340, EX4300, QFX5100, and NFX250. However, while I've been heavily
 moving my Linux/Unix infrastructure to more replaceable, automatable workflows, I've neglected the networking side.
 I've been using the [juniper.device](https://galaxy.ansible.com/ui/repo/published/juniper/device/) collection for
@@ -122,7 +122,7 @@ Last login: Sat Aug 15 04:30:11 2026 from 172.20.20.1
 ## Pushing the Image to a Registry
 
 Now that we've created a working container image for the vSRX, you probably want to reuse it for CI/CD workflows. Before
-pushing it, I want to err on the side of caution and warn you to not push the image publically. **Juniper appliances like
+pushing it, I want to err on the side of caution and warn you to not push the image publicly. **Juniper appliances like
 the vSRX and cSRX are licensed products and aren't allowed to be distributed.** I'll be uploading my image to GitHub's
 Container Registry for native integration with my runners so keep reading if you'd like to learn how to do it safely.
 
@@ -193,4 +193,62 @@ Once the command completes successfully, you can click on your profile in the to
 ![Docker Image In Packages](docker-image-in-packages.jpg)
 
 If you click on the image, and then click on `Package settings`, and scroll to the bottom, you should see that GitHub
-already made the package visibiliy private for you.
+already made the package visibility private for you.
+
+## Using the vSRX Image for CI/CD
+
+To show how to use this newly created image for CI/CD, here's a `ci.yml` you could use in GitHub Actions, for example:
+
+```yaml
+---
+name: CI
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - '**/*.md'
+  pull_request:
+    paths-ignore:
+      - '**/*.md'
+  schedule:
+    - cron: "30 3 * * 5"
+
+jobs:
+  containerlab:
+    permissions:
+      packages: read
+
+    steps:
+      - name: Log in to GitHub Container Registry.
+        uses: docker/login-action@v4.6.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.LOGIN_TO_GHCR_PAT }}
+
+      - name: Check out the codebase.
+        uses: actions/checkout@v7
+
+      - name: Install containerlab.
+        run: bash -c "$(curl -sL https://get.containerlab.dev)"
+
+      - name: Deploy containerlab topology
+        run: containerlab deploy -t clab.yml
+```
+
+In this example YAML, we'll log in to the registry by using the same PAT we generated previously (passed to the runner
+as a repository secret). Then, we can install containerlab in the runner and deploy our topology. In our topology file
+(`clab.yml`), we can use the following configuration:
+
+```yaml
+name: vsrx-testing
+topology:
+  nodes:
+    vsrx-01:
+      kind: juniper_vsrx
+      image: ghcr.io/iambryant/vrnetlab/juniper_vsrx:23.4R2-S5.5
+```
+
+This configuration should help you get started with spinning up containerlab nodes in CI. In a future blog post I'll try
+to explain how to use containerlab with a testing framework like Molecule for testing Ansible code.
