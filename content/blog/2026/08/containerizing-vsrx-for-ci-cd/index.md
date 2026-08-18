@@ -216,9 +216,6 @@ on:
 
 jobs:
   containerlab:
-    permissions:
-      packages: read
-
     steps:
       - name: Log in to GitHub Container Registry.
         uses: docker/login-action@v4.6.0
