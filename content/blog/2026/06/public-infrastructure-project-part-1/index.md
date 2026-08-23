@@ -211,3 +211,18 @@ webhooks on) to port 9000. Whether GitHub sends it as HTTP or HTTPS, as long as 
 it'll rewrite it to port 9000.
 
 ![Cloudflare port rewrite](cloudflare-port-rewrite.jpg)
+
+## Getting Google to Index your Website
+
+This is an update from 2 months later. I had found that despite my blog being up for a while and having multiple posts
+it was not showing up in google search results, even when using the `site:` modifier. I decided to create an account
+in [Google Search Console](https://search.google.com/search-console/about#utm_source=en-wmxmsg&utm_medium=wmxmsg&utm_campaign=bm&authuser=0),
+where I added my website and attempted a test index. Google reported failed and that my website wasn't in Google search
+results (obviously). Even adding my `sitemap.xml` in `Sitemaps` under the indexing section reported `Couldn't fetch`.
+I suspected that a security mechanism from Cloudflare was to blame for this, but I wasn't about to outright disable
+Cloudflare protection just so that my website could be reached. What I found that ended up working was navigating to
+`Security`, then `Settings`, and disabling `Bot fight mode`. Since I'm on a free account anyway there weren't any
+granular options for tuning it, so I just ended up disabling it, which worked. Going back to Google Search Console,
+entering my website URL in URL inspection, and clicking `Test URL` finally showed a success. I clicked on
+`Request Indexing` and after a few minutes, my site was showing up in Google's search results. I hope this helps someone
+encountering the same issue.
