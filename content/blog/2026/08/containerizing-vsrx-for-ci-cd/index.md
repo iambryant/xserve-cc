@@ -9,7 +9,7 @@ I use Juniper extensively in my own environment, in fact, the first Juniper devi
 an EX4500. Fast forward to today and I now own an SRX340, EX4300, QFX5100, and NFX250. However, while I've been heavily
 moving my Linux/Unix infrastructure to more replaceable, automatable workflows, I've neglected the networking side.
 I've been using the [juniper.device](https://galaxy.ansible.com/ui/repo/published/juniper/device/) collection for
-automating configuration on my switches and firewalls so far but thought I'd make a collection for
+automating configuration on my switches and firewalls so far, but thought I'd also write playbooks for automating
 common tasks/applications like ACME, VPNs, and ZTP. Of course, when writing software, CI/CD is a staple for making sure
 your software works and adapts to different configurations/conditions. In this post I'll talk about possible solutions
 and the differences between them.
