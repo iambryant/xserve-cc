@@ -40,7 +40,7 @@ There's some technicalities to note here:
 ## IPv6 on the Juniper SRX
 
 This is the following configuration that I've got working on my SRX for enabling IPv6 connectivity to Verizon, using
-this [Juniper guide here](https://www.juniper.net/documentation/us/en/software/junos/dhcp/topics/topic-map/dhcpv6-client-security-devices.html).
+this [Juniper guide here](https://www.juniper.net/documentation/us/en/software/junos/dhcp/topics/topic-map/dhcpv6-client-security-devices.html):
 
 ```text
 set security forwarding-options family inet6 mode flow-based
