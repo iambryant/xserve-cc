@@ -54,7 +54,7 @@ To explain the set commands used:
 
 - SRX firewalls, which use flow mode by default, don't process IPv6 traffic out of the box. This option will enable it
   (requires a reboot).
-- The second command allows DHCPv6 in to your WAN interface in its respective security zone so that it can act as a 
+- The second command allows DHCPv6 in to your WAN interface in its respective security zone so that it can act as a
   DHCPv6 client.
 - The third command sounds misleading but is required for enabling prefix delegation. Even though your connection to
   Verizon is stateless, prefix delegation is inherently a stateful thing so Junos requires you to use the parameter
@@ -98,5 +98,5 @@ ff02::2/128        *[INET6/0] 1d 07:38:03
                        MultiRecv
 ```
 
-> **Note**: You might not receive a default route immediately after enabling router-advertisement under protocols. 
+> **Note**: You might not receive a default route immediately after enabling router-advertisement under protocols.
 > This is because router advertisements are periodic. If you wait a couple of minutes, it should appear.
