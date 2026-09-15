@@ -40,7 +40,7 @@ There's some technicalities to note here:
 ## IPv6 on the Juniper SRX
 
 This is the following configuration that I've got working on my SRX for enabling IPv6 connectivity to Verizon, using
-this [Juniper guide here](https://www.juniper.net/documentation/us/en/software/junos/dhcp/topics/topic-map/dhcpv6-client-security-devices.html)
+this [Juniper guide here](https://www.juniper.net/documentation/us/en/software/junos/dhcp/topics/topic-map/dhcpv6-client-security-devices.html).
 
 ```text
 set security forwarding-options family inet6 mode flow-based
@@ -75,7 +75,7 @@ You can also use this set command if you also want your Juniper device to reques
 Verizon currently doesn't offer IPv6 DNS servers:
 
 ```text
-set interfaces ge-0/0/0 unit 0 family inet6 dhcpv6-client 
+set interfaces ge-0/0/0 unit 0 family inet6 dhcpv6-client req-option dns-server
 ```
 
 We can see here now that the SRX has successfully received a delegated prefix and a default route:
