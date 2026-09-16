@@ -48,6 +48,7 @@ set security zones security-zone UNTRUST interfaces ge-0/0/0.0 host-inbound-traf
 set interfaces ge-0/0/0 unit 0 family inet6 dhcpv6-client client-type stateful
 set interfaces ge-0/0/0 unit 0 family inet6 dhcpv6-client client-ia-type ia-pd
 set interfaces ge-0/0/0 unit 0 family inet6 dhcpv6-client client-identifier duid-type duid-ll
+set protocols router-advertisement interface ge-0/0/0.0
 ```
 
 To explain the set commands used:
@@ -61,6 +62,9 @@ To explain the set commands used:
   `stateful` rather than `autoconfig` (which implies stateless).
 - The fourth command tells the WAN interface to request a block of IPv6 IPs so that they can be used for LAN addresses.
 - The fifth command is used for client identification so that Verizon can hand out things like DNS info.
+- The sixth command is **EXTREMELY** important! While you typically set `router-advertisement` on an interface so that
+  it can announce prefixes to downstream devices for SLAAC, it's required here so that the WAN interface can process
+  router advertisements from your ISP and receive a default IPv6 route.
 
 This configuration should be applicable to non-SRX Juniper families like the ACX or MX. You don't need to run
 `set security forwarding-options family inet6 mode flow-based` since packet-based devices process IPv6 natively.
