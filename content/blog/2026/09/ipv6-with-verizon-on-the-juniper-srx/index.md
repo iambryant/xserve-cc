@@ -115,19 +115,19 @@ our own numbering after the 56th bit. I'll choose `2600:4040:xxxx:xx10::/64`.
 
 Next, I'll assign that IP to my LAN interface on the SRX. I'll use `ge-0/0/1.0`:
 
-```
+```text
 set interfaces ge-0/0/1.0 family inet6 address 2600:4040:xxxx:xx10::1/64
 ```
 
 And enable router advertisements on the interface with the prefix so that hosts can get an IP address with SLAAC:
 
-```
+```text
 set protocols router-advertisement interface ge-0/0/1.0 prefix 2600:4040:xxxx:xx10::/64
 ```
 
 Then, we can commit the configuration. Don't forget to run `commit check` before commits.
 
-```
+```text
 commit
 ```
 
