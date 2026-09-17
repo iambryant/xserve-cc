@@ -39,7 +39,7 @@ There's some technicalities to note here:
 
 ## IPv6 on the Juniper SRX
 
-This is the following configuration that I've got working on my SRX for enabling IPv6 connectivity to Verizon, using
+Here is the following configuration that I've got working on my SRX for enabling IPv6 connectivity to Verizon, using
 this [Juniper guide here](https://www.juniper.net/documentation/us/en/software/junos/dhcp/topics/topic-map/dhcpv6-client-security-devices.html):
 
 ```text
@@ -92,7 +92,7 @@ inet6.0: 4 destinations, 4 routes (4 active, 0 holddown, 0 hidden)
 
 ::/0               *[Access-internal/12] 00:00:26
                     >  to fe80::56e0:32ff:fe75:1fc3 via ge-0/0/0.0
-2600:4040:xxxx:xxxx::/56
+2600:4040:xxxx:xx::/56
                    *[Access-internal/12] 00:00:39
                        Reject
 fe80::ee38:73ff:fe9b:81a5/128
@@ -104,3 +104,48 @@ ff02::2/128        *[INET6/0] 1d 07:38:03
 
 > **Note**: You might not receive a default route immediately after enabling router-advertisement under protocols.
 > This is because router advertisements are periodic. If you wait a couple of minutes, it should appear.
+
+## Assigning Subnets to LAN Interfaces
+
+Now that we've gotten a delegated prefix, we can carve out segments of it to assign to our LANs. For this example, I'll
+be using the LAN interface/gateway for a home network so that devices know what subnet they're on.
+
+First, I'll create a subnet from the delegated prefix. Since we received a `/56` prefix, that means we can start adding
+our own numbering after the 56th bit. I'll choose `2600:4040:xxxx:xx10::/64`.
+
+Next, I'll assign that IP to my LAN interface on the SRX. I'll use `ge-0/0/1.0`:
+
+```
+set interfaces ge-0/0/1.0 family inet6 address 2600:4040:xxxx:xx10::1/64
+```
+
+And enable router advertisements on the interface with the prefix so that hosts can get an IP address with SLAAC:
+
+```
+set protocols router-advertisement interface ge-0/0/1.0 prefix 2600:4040:xxxx:xx10::/64
+```
+
+Then, we can commit the configuration. Don't forget to run `commit check` before commits.
+
+```
+commit
+```
+
+Now, if I connect to the LAN interface of my SRX from my macbook, I can see it successfully has an IPv6 gateway and
+IP addresses configured with SLAAC (macOS configures two by default):
+
+![macOS IPv6 SLAAC](macos-ipv6-slaac.jpg)
+
+And if I try to ping an IPv6 host like `dns.google`, it works!
+
+```text
+ping6 2001:4860:4860::8844
+PING6(56=40+8+8 bytes) 2600:4040:xxxx:xx10:6c5b:e13:510b:d9ab --> 2001:4860:4860::8844
+16 bytes from 2001:4860:4860::8844, icmp_seq=0 hlim=118 time=15.929 ms
+16 bytes from 2001:4860:4860::8844, icmp_seq=1 hlim=118 time=9.592 ms
+16 bytes from 2001:4860:4860::8844, icmp_seq=2 hlim=118 time=10.523 ms
+```
+
+I hope this blog post helped illustrate an example for configuring IPv6 on your SRX for your LANs. Do note it is
+not recommended for use with servers as if your prefix changes your servers will lose connectivity. I'll try to come up
+with a solution for that in a future blog post.
