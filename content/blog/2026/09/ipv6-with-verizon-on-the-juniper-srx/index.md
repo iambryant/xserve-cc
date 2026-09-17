@@ -136,10 +136,10 @@ IP addresses configured with SLAAC (macOS configures two by default):
 
 ![macOS IPv6 SLAAC](macos-ipv6-slaac.jpg)
 
-And if I try to ping an IPv6 host like `dns.google`, it works!
+And if I try to ping a host over IPv6, it works!
 
 ```text
-ping6 2001:4860:4860::8844
+ping6 dns.google
 PING6(56=40+8+8 bytes) 2600:4040:xxxx:xx10:6c5b:e13:510b:d9ab --> 2001:4860:4860::8844
 16 bytes from 2001:4860:4860::8844, icmp_seq=0 hlim=118 time=15.929 ms
 16 bytes from 2001:4860:4860::8844, icmp_seq=1 hlim=118 time=9.592 ms
