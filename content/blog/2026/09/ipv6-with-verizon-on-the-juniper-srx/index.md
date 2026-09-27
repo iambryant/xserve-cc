@@ -9,9 +9,9 @@ It's finally time to check off something on my to-do list: IPv6. I've actually b
 IPv6: no more NAT, being able to use public IP blocks, and feeling superior to IPv4 users. However, ISPs like Verizon
 or Comcast aren't really clear on how to utilize IPv6 when using your own routers. Plus, it requires some additional
 configuration since it isn't a given like IPv4 is. I did some testing with my ISP provided Verizon router and my own
-Juniper SRX and thought I'd write this blog post for anyone looking to enable IPv6 in their own environment.
+Juniper SRX and thought I'd write this post for anyone looking to enable IPv6 in their own environment.
 
-> **Note**: This blog was tested on a WIRED (fiber-optic) service via Verizon. I'm not sure if it applies to Verizon's
+> **Note**: This post was tested on a WIRED (fiber-optic) service via Verizon. I'm not sure if it applies to Verizon's
 > 5G service or other 5G internet services. Your mileage may vary.
 
 ## IPv6 on Verizon Routers
@@ -146,6 +146,5 @@ PING6(56=40+8+8 bytes) 2600:4040:xxxx:xx10:6c5b:e13:510b:d9ab --> 2001:4860:4860
 16 bytes from 2001:4860:4860::8844, icmp_seq=2 hlim=118 time=10.523 ms
 ```
 
-I hope this blog post helped illustrate an example for configuring IPv6 on your SRX for your LANs. Do note it is
-not recommended for use with servers as if your prefix changes your servers will lose connectivity. I'll try to come up
-with a solution for that in a future blog post.
+I hope this post helped illustrate an example for configuring IPv6 on your SRX for your LANs. Do note that dynamic
+prefix delegation is not recommended for use with servers as if your prefix changes your servers will lose connectivity.
