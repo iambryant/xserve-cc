@@ -71,10 +71,6 @@ This configuration should be applicable to non-SRX Juniper families like the ACX
 Additionally, instead of allowing DHCPv6 into your WAN interface through a security zone, you'll use a stateless filter
 under the `firewall` stanza.
 
-> **Note**: You will also need to allow DHCPv6 in through a stateless firewall filter on the SRX if you're protecting
-> the loopback (lo0) interface through a firewall filter like `PROTECT-RE` since the DHCPv6 client traffic needs to
-> reach the Routing Engine.
-
 You can also use this set command if you also want your Juniper device to request DNS servers from the upstream WAN, but
 Verizon currently doesn't offer IPv6 DNS servers:
 
