@@ -1,5 +1,6 @@
 ---
 name: CI
+
 on:
   push:
     branches:
@@ -7,8 +8,9 @@ on:
   pull_request:
   schedule:
     - cron: "30 3 * * 5"
-  permissions:
-    packages: write
+
+permissions:
+  packages: write
 
 env:
   REGISTRY_IMAGE: ghcr.io/iambryant/xserve-cc
