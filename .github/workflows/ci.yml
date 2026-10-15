@@ -7,13 +7,18 @@ on:
   pull_request:
   schedule:
     - cron: "30 3 * * 5"
+  permissions:
+    packages: write
+
+env:
+  REGISTRY_IMAGE: ghcr.io/iambryant/xserve-cc
 
 jobs:
   lint:
     name: Lint Markdown
     runs-on: ubuntu-latest
     steps:
-      - name: Check out the codebase.
+      - name: Check out the codebase
         uses: actions/checkout@v7
 
       - name: Lint Markdown files
@@ -21,15 +26,38 @@ jobs:
         with:
           globs: '**/*.md'
 
-  deploy:
-    name: Deploy codebase
+  build:
+    name: Build container image
     runs-on: ubuntu-latest
-    needs: lint
     steps:
-      - name: Trigger deployment to build Hugo website
-        uses: distributhor/workflow-webhook@v3.0.8
+      - name: Checkout the codebase
+        uses: actions/checkout@f548e57e544e1ff5a4c46bf1e1b8685f8e4a348a # v7.0.1
+
+      - name: Docker metadata
+        id: meta
+        uses: docker/metadata-action@dc802804100637a589fabce1cb79ff13a1411302 # v6.2.0
         with:
-          webhook_url: 'https://www.xserve.cc/hooks/deploy-hugo-website'
-          webhook_secret: ${{ secrets.WEBHOOK_TOKEN }}
-          webhook_type: 'json-extended'
-#          verbose: true
+          images: ${{ env.REGISTRY_IMAGE }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
+
+      - name: Login to GHCR
+        # Login is only needed when the image is pushed
+        uses: docker/login-action@dbcb813823bdd20940b903addbd779551569679f # v4.6.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push
+        id: build
+        uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7.4.0
+        with:
+          context: .
+          provenance: mode=max
+          sbom: true
+          push: ${{ github.event_name != 'pull_request' }}
+          platforms: linux/amd64,linux/arm64
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
