@@ -10,7 +10,7 @@ copyright = 'Bryant A'
 theme = "congo"
 defaultContentLanguage = "en"
 
-enableRobotsTXT = true
+enableRobotsTXT = false
 summaryLength = 0
 
 [pagination]
